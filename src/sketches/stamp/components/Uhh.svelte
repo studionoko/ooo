@@ -43,8 +43,8 @@ path {
 }
 @media screen and (min-width: 768px) {
 	svg {
-		width: 8rem;
-		height: 8rem;
+		width: 10rem;
+		height: 10rem;
 	}
 }
 </style>

@@ -1,5 +1,138 @@
 <script>
-  const bolle = 'path'
+	import { onMount } from 'svelte'
+	import Vector from './components/Vector.svelte'
+
+	const colors = [
+		'red', 'blue', 'yellow', 'green', 'orange', 'rebeccapurple', 'pink',
+		'#FFDCC8', 'cyan', 'hotpink', 'purple', 'marine', '#82C1E4', '#DFD0FE',
+		'#DAEDFF', '#B1F8B8', '#A1D8FF', '#FFDAA1', '#FFA1A1',
+	]
+
+	let paths = []
+	let count = 0
+	let point = [0, 0]
+	let isDrag = false
+	let isDrawing = false
+	let inactivityTimer = null
+	let viewport = { width: 1920, height: 1080 }
+
+	$: shouldDoShit = count < 50
+
+	const createNewPath = path => {
+		paths = [...paths, path]
+	}
+
+	const handleClick = ev => {
+		createNewPath({
+			color: colors[Math.floor(Math.random() * colors.length)],
+			from: [
+				Math.floor(Math.random() * viewport.height),
+				Math.floor(Math.random() * viewport.width),
+			],
+			to: [ ev.pageX, ev.pageY ],
+		})
+	}
+	const handleMouseDown = ev => isDrag = true
+	const handleMouseUp = ev => isDrag = false
+	const handleMouseMove = ev => {
+		if (!isDrag || isDrawing) return
+		isDrawing = true
+		createNewPath({
+			color: colors[Math.floor(Math.random() * colors.length)],
+			from: [
+				Math.floor(Math.random() * viewport.height),
+				Math.floor(Math.random() * viewport.width),
+			],
+			to: [ ev.pageX, ev.pageY ],
+		})
+		setTimeout(() => isDrawing = false, 10);
+	}
+	const handleTouchMove = ev => {
+		if (!isDrag || isDrawing) return
+		isDrawing = true
+		createNewPath({
+			color: colors[Math.floor(Math.random() * colors.length)],
+			from: [
+				Math.floor(Math.random() * viewport.height),
+				Math.floor(Math.random() * viewport.width),
+			],
+			to: [ ev.pageX, ev.pageY ],
+		})
+		setTimeout(() => isDrawing = false, 10);
+	}
+	const handleResize = () => {
+		viewport = {
+			width: window.innerWidth,
+			height: window.innerHeight,
+		}
+	}
+
+	const startAnimation = () => {
+		inactivityTimer = setTimeout(() => {
+			count++
+			createNewPath({
+				color: colors[Math.floor(Math.random() * colors.length)],
+				from: point,
+				to: [
+					Math.floor(Math.random() * viewport.height),
+					Math.floor(Math.random() * viewport.width),
+				],
+			})
+			if (shouldDoShit) startAnimation()
+		}, 20)
+	}
+	const restartTimer = () => {
+		clearTimeout(inactivityTimer)
+		clearInterval(inactivityTimer)
+		inactivityTimer = setTimeout(startAnimation, 500)
+	}
+
+	onMount(() => {
+		handleResize()
+
+		point = [
+			Math.floor(Math.random() * viewport.width),
+			Math.floor(Math.random() * viewport.height),
+		]
+
+		restartTimer()
+
+		window.addEventListener('resize', handleResize)
+
+		requestAnimationFrame(() => {
+			window.addEventListener('click', handleClick)
+			window.addEventListener('mousedown', handleMouseDown)
+			window.addEventListener('mouseup', handleMouseUp)
+			window.addEventListener('mousemove', handleMouseMove)
+			window.addEventListener('touchstart', handleMouseDown)
+			window.addEventListener('touchend', handleMouseUp)
+			window.addEventListener('touchmove', handleTouchMove)
+		})
+	})
 </script>
 
-heisann {bolle}!
+<svg width={viewport.width} height={viewport.height} viewBox={`0 0 ${viewport.width} ${viewport.height}`} fill="none">
+	{#each paths as p}
+		<Vector color={p.color || 'white'} to={p.to} from={p.from}/>
+	{/each}
+</svg>
+
+<style>
+svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+	width: 100%;
+	height: 100%;
+}
+:global(body) {
+	-webkit-tap-highlight-color: none;
+	overscroll-behavior: contain;
+	overflow: hidden;
+}
+@media screen and (min-width: 768px) {
+	:global(body) {
+		cursor: pointer;
+	}
+}
+</style>

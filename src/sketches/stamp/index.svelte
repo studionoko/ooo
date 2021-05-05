@@ -75,19 +75,19 @@
 		restartTimer()
 		handleResize()
 
-		window.addEventListener('click', handleClick)
-		window.addEventListener('mousedown', handleMouseDown)
-		window.addEventListener('mouseup', handleMouseUp)
-		window.addEventListener('mousemove', handleMouseMove)
 		window.addEventListener('resize', handleResize)
 
-		window.addEventListener('touchstart', handleMouseDown)
-		window.addEventListener('touchend', handleMouseUp)
-		window.addEventListener('touchmove', handleTouchMove)
+		requestAnimationFrame(() => {
+			window.addEventListener('click', handleClick)
+			window.addEventListener('mousedown', handleMouseDown)
+			window.addEventListener('mouseup', handleMouseUp)
+			window.addEventListener('mousemove', handleMouseMove)
+			window.addEventListener('touchstart', handleMouseDown)
+			window.addEventListener('touchend', handleMouseUp)
+			window.addEventListener('touchmove', handleTouchMove)
+		})
 	})
 </script>
-
-<Uhh className="logo" color="black"/>
 
 {#each uhhs as u}
 	{#if u.top !== 0}
@@ -97,19 +97,6 @@
 
 <style>
 :global(body) {
-	background: #000;
-	color: #fff;
-}
-@media (prefers-color-scheme: dark) {
-	:global(body) {
-		background: #000;
-		color: #ff;
-	}
-	:global(.logo) {
-		color: #fff !important;
-	}
-}
-:global(body) {
 	-webkit-tap-highlight-color: none;
 	overscroll-behavior: contain;
 	overflow: hidden;
@@ -118,13 +105,5 @@
 	:global(body) {
 		cursor: pointer;
 	}
-}
-:global(.logo) {
-	position: fixed;
-	top: 2rem;
-	left: 2rem;
-	width: 5rem;
-	height: 5rem;
-	transform: none !important;
 }
 </style>
