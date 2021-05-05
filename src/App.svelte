@@ -75,6 +75,7 @@ nav {
   color: #fff;
   text-decoration: none;
   transition: 0.1s font-variation-settings, 0.1s padding-left;
+  -webkit-tap-highlight-color: transparent;
 }
 :global(a[aria-current]) {
   font-variation-settings: 'wght' 300, 'slnt' -20;

@@ -56,7 +56,10 @@
 				Math.floor(Math.random() * viewport.height),
 				Math.floor(Math.random() * viewport.width),
 			],
-			to: [ ev.pageX, ev.pageY ],
+			to: [
+				ev.touches[0].clientX,
+				ev.touches[0].clientY,
+			],
 		})
 		setTimeout(() => isDrawing = false, 10);
 	}
