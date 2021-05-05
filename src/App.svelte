@@ -3,7 +3,7 @@
   import Uhhs from './sketches/uhhs/index.svelte'
   import Path from './sketches/path/index.svelte'
 
-  let url = '/'
+  let url = window.location.pathname
 </script>
 
 <svg class="logo" width="500" height="500" viewBox="0 0 500 500" fill="none">
