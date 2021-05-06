@@ -4,7 +4,7 @@
   import Path from './sketches/path/index.svelte'
 
   const detectHome = window.location.pathname === '/'
-    ? 'sketches/path'
+    ? 'sketch/path'
     : window.location.pathname
 
   let url = detectHome
@@ -12,12 +12,12 @@
 
 <Router {url}>
   <main>
-    <Route path="sketches/stamp" component={Stamp}/>
-    <Route path="sketches/path" component={Path}/>
+    <Route path="sketch/stamp" component={Stamp}/>
+    <Route path="sketch/path" component={Path}/>
   </main>
   <nav>
-    <Link to="sketches/path">path</Link>
-    <Link to="sketches/stamp">stamp</Link>
+    <Link to="sketch/path">path</Link>
+    <Link to="sketch/stamp">stamp</Link>
   </nav>
 
   <div class="logo">
