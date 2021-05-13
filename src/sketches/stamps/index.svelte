@@ -68,7 +68,7 @@
 	const restartTimer = () => {
 		clearTimeout(inactivityTimer)
 		clearInterval(inactivityTimer)
-		inactivityTimer = setTimeout(startAnimation, 250)
+		inactivityTimer = setTimeout(startAnimation, 50)
 	}
 
 	onMount(() => {

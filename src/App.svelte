@@ -5,7 +5,7 @@
   import Path from './sketches/swirls/index.svelte'
 
   const detectHome = window.location.pathname === '/'
-    ? 'sketch/path'
+    ? 'sketch/swirls'
     : window.location.pathname
 
   let url = detectHome
