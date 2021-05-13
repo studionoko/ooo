@@ -1,23 +1,29 @@
 <script>
+  import { onMount } from 'svelte'
   import { Router, Link, Route } from 'svelte-routing'
-  import Stamp from './sketches/stamp/index.svelte'
-  import Path from './sketches/path/index.svelte'
+  import Stamp from './sketches/stamps/index.svelte'
+  import Path from './sketches/swirls/index.svelte'
 
   const detectHome = window.location.pathname === '/'
     ? 'sketch/path'
     : window.location.pathname
 
   let url = detectHome
+
+  // onMount(() => {
+  //
+  // })
+
 </script>
 
 <Router {url}>
   <main>
-    <Route path="sketch/stamp" component={Stamp}/>
-    <Route path="sketch/path" component={Path}/>
+    <Route path="sketch/stamps" component={Stamp}/>
+    <Route path="sketch/swirls" component={Path}/>
   </main>
-  <nav>
-    <Link to="sketch/path">path</Link>
-    <Link to="sketch/stamp">stamp</Link>
+  <nav class="nav">
+    <Link class="link" to="sketch/swirls">Swirls</Link>
+    <Link class="link" to="sketch/stamps">Stamps</Link>
   </nav>
 
   <div class="logo">
@@ -49,100 +55,3 @@
     </Link>
   </div>
 </Router>
-
-<style>
-@font-face {
-  font-family: 'Inter';
-  src: url('/fonts/inter.ttf') format('truetype');
-  font-weight: 125 950;
-  font-style: oblique -20deg 20deg;
-}
-
-nav {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  top: 0.5rem;
-  right: 0.5rem;
-  mix-blend-mode: exclusion;
-  line-height: 1em;
-  user-select: none;
-}
-:global(a) {
-  display: inline-block;
-  padding: 0;
-  margin: 0;
-  color: #fff;
-  text-decoration: none;
-  transition: 0.1s font-variation-settings, 0.1s padding-left;
-  -webkit-tap-highlight-color: transparent;
-}
-:global(a[aria-current]) {
-  font-variation-settings: 'wght' 300, 'slnt' -20;
-  padding-left: 2rem;
-}
-
-:global(html) {
-  width: 100%;
-  height: 100%;
-}
-:global(body) {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-	background: #000;
-	color: #fff;
-  -webkit-tap-highlight-color: none;
-	overscroll-behavior: contain;
-	overflow: hidden;
-  font-family: 'Inter', sans-serif;
-  font-size: 2rem;
-  font-variation-settings: 'wght' 300, 'slnt' 0;
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-}
-@media (prefers-color-scheme: dark) {
-	:global(body) {
-		background: #000;
-		color: #fff;
-	}
-}
-
-.logo {
-	bottom: 1rem;
-	right: 1rem;
-	position: fixed;
-  mix-blend-mode: exclusion;
-  display: flex;
-  flex-direction: row;
-  padding: 0;
-  margin: 0;
-}
-.logo svg {
-  display: inline-block;
-  float: left;
-  width: 2.5rem;
-  height: 2.5rem;
-  margin-left: 0.35rem;
-}
-circle,
-path {
-	stroke: currentColor;
-}
-
-@media screen and (min-width: 768px) {
-  :global(body) {
-		cursor: pointer;
-    font-size: 3rem;
-	}
-  :global(a[aria-current]) {
-    padding-left: 2rem;
-  }
-  .logo svg {
-    width: 3.5rem;
-    height: 3.5rem;
-    margin-left: 0.5rem;
-  }
-}
-</style>

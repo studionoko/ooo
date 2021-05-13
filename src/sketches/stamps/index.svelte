@@ -63,12 +63,12 @@
 				top: Math.floor(Math.random() * viewport.height),
 				left: Math.floor(Math.random() * viewport.width),
 			})
-		}, 2000)
+		}, 1000)
 	}
 	const restartTimer = () => {
 		clearTimeout(inactivityTimer)
 		clearInterval(inactivityTimer)
-		inactivityTimer = setTimeout(startAnimation, 3000)
+		inactivityTimer = setTimeout(startAnimation, 250)
 	}
 
 	onMount(() => {
