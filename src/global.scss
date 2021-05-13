@@ -65,17 +65,21 @@ body {
       top: 0;
       bottom: 0;
       // background: #f30;
-      border: solid 0.25rem currentColor;
+      border: solid 0.16rem currentColor;
       border-radius: 50%;
     }
-  }
 
-  @media screen and (min-width: 768px) {
-    .link[aria-current] {
+    &[aria-current] {
       padding: 0.5rem 1rem;
       &::after {
         display: block;
       }
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .link::after {
+      border-width: 0.25rem;
     }
   }
 }
