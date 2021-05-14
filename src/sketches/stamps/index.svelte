@@ -1,12 +1,9 @@
 <script>
 	import { onMount } from 'svelte'
+	import { getRandomColors } from '@kvasi/colors'
 	import Uhh from './components/Uhh.svelte'
 
-	const colors = [
-		'red', 'blue', 'yellow', 'green', 'orange', 'rebeccapurple', 'pink',
-		'#FFDCC8', 'cyan', 'hotpink', 'purple', 'marine', '#82C1E4', '#DFD0FE',
-		'#DAEDFF', '#B1F8B8', '#A1D8FF', '#FFDAA1', '#FFA1A1',
-	]
+	let cols = getRandomColors()
 
 	let uhhs = []
 	let isDrag = false
@@ -22,18 +19,21 @@
 		restartTimer()
 
 		createNewUhh({
-			color: colors[Math.floor(Math.random() * colors.length)],
+			color: cols[Math.floor(Math.random() * cols.length)],
 			top: ev.pageY,
 			left: ev.pageX,
 		})
 	}
-	const handleMouseDown = ev => isDrag = true
+	const handleMouseDown = ev => {
+		isDrag = true
+		cols = getRandomColors()
+	}
 	const handleMouseUp = ev => isDrag = false
 	const handleMouseMove = ev => {
 		if (!isDrag || isDrawing) return
 		isDrawing = true
 		createNewUhh({
-			color: colors[Math.floor(Math.random() * colors.length)],
+			color: cols[Math.floor(Math.random() * cols.length)],
 			top: ev.pageY,
 			left: ev.pageX,
 		})
@@ -43,7 +43,7 @@
 		if (!isDrag || isDrawing) return
 		isDrawing = true
 		createNewUhh({
-			color: colors[Math.floor(Math.random() * colors.length)],
+			color: cols[Math.floor(Math.random() * cols.length)],
 			top: ev.touches[0].clientY,
 			left: ev.touches[0].clientX,
 		})
@@ -59,7 +59,7 @@
 	const startAnimation = () => {
 		inactivityTimer = setInterval(() => {
 			createNewUhh({
-				color: colors[Math.floor(Math.random() * colors.length)],
+				color: cols[Math.floor(Math.random() * cols.length)],
 				top: Math.floor(Math.random() * viewport.height),
 				left: Math.floor(Math.random() * viewport.width),
 			})

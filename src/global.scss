@@ -123,3 +123,37 @@ body {
     }
   }
 }
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-180deg); }
+}
+
+.refresh {
+	left: 1rem;
+  bottom: 1rem;
+	position: fixed;
+  mix-blend-mode: exclusion;
+  color: inherit;
+  width: 2.5rem;
+  height: 2.5rem;
+  z-index: 100;
+  animation: spin 0.5s ease;
+
+  path {
+    fill: currentColor;
+  }
+
+  &:hover {
+    transition: ease 0.5s transform;
+    transform: rotate(-180deg);
+  }
+  &:active {
+    opacity: 0.5;
+  }
+
+  @media screen and (min-width: 768px) {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+}

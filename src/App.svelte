@@ -1,30 +1,37 @@
 <script>
-  import { onMount } from 'svelte'
-  import { Router, Link, Route } from 'svelte-routing'
-  import Stamp from './sketches/stamps/index.svelte'
-  import Path from './sketches/swirls/index.svelte'
+  import { tick } from 'svelte'
+  import { Router, Route, Link, navigate } from 'svelte-routing'
 
-  const detectHome = window.location.pathname === '/'
-    ? 'sketch/swirls'
-    : window.location.pathname
+  import Stamps from './sketches/stamps/index.svelte'
+  import Swirls from './sketches/swirls/index.svelte'
 
-  let url = detectHome
+  let url
 
-  // onMount(() => {
-  //
-  // })
+  const refresh = async () => {
+    const curUrl = window.location.pathname
+    navigate('/refresh')
+    await tick()
+    navigate(curUrl)
+  }
 
 </script>
 
 <Router {url}>
   <main>
-    <Route path="sketch/stamps" component={Stamp}/>
-    <Route path="sketch/swirls" component={Path}/>
+    <Route path="/" component={Swirls}/>
+    <Route path="sketch/stamps" component={Stamps}/>
+    <Route path="sketch/swirls" component={Swirls}/>
   </main>
   <nav class="nav">
     <Link class="link" to="sketch/swirls">Swirls</Link>
     <Link class="link" to="sketch/stamps">Stamps</Link>
   </nav>
+
+
+  <svg on:click={refresh} class="refresh" width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M250 478.74C376.33 478.74 478.74 376.33 478.74 250C478.74 189.53 455.275 134.541 416.955 93.6401V151.203H395.694V59.284H487.613V80.5441H433.808C474.899 125.093 500 184.615 500 250C500 388.071 388.071 500 250 500C206.49 500 165.576 488.885 129.943 469.339V444.738C164.84 466.298 205.967 478.74 250 478.74Z" fill="black"/>
+    <path d="M81.7947 405.014C44.2148 364.257 21.2601 309.809 21.2601 250C21.2601 123.67 123.67 21.2601 250 21.2601C293.508 21.2601 334.179 33.4073 368.807 54.4953V29.9795C333.468 10.857 293.002 0 250 0C111.929 0 0 111.929 0 250C0 314.775 24.6347 373.796 65.0463 418.205H11.136V439.465H103.055V347.547H81.7947V405.014Z" fill="black"/>
+  </svg>
 
   <div class="logo">
     <Link to="/">

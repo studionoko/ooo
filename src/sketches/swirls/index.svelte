@@ -1,12 +1,9 @@
 <script>
 	import { onMount } from 'svelte'
+	import { getRandomColors } from '@kvasi/colors'
 	import Vector from './components/Vector.svelte'
 
-	const colors = [
-		'red', 'blue', 'yellow', 'green', 'orange', 'rebeccapurple', 'pink',
-		'#FFDCC8', 'cyan', 'hotpink', 'purple', 'marine', '#82C1E4', '#DFD0FE',
-		'#DAEDFF', '#B1F8B8', '#A1D8FF', '#FFDAA1', '#FFA1A1',
-	]
+	let cols = getRandomColors(['pastel', 'blues', 'reds', 'oranges', 'greens', 'purples'])
 
 	let paths = []
 	let count = 0
@@ -24,7 +21,7 @@
 
 	const handleClick = ev => {
 		createNewPath({
-			color: colors[Math.floor(Math.random() * colors.length)],
+			color: cols[Math.floor(Math.random() * cols.length)],
 			from: [
 				Math.floor(Math.random() * viewport.height),
 				Math.floor(Math.random() * viewport.width),
@@ -32,13 +29,18 @@
 			to: [ ev.pageX, ev.pageY ],
 		})
 	}
-	const handleMouseDown = ev => isDrag = true
-	const handleMouseUp = ev => isDrag = false
+	const handleMouseDown = ev => {
+		isDrag = true
+		cols = getRandomColors(['pastel', 'blues', 'reds', 'oranges', 'greens', 'purples'])
+	}
+	const handleMouseUp = ev => {
+		isDrag = false
+	}
 	const handleMouseMove = ev => {
 		if (!isDrag || isDrawing) return
 		isDrawing = true
 		createNewPath({
-			color: colors[Math.floor(Math.random() * colors.length)],
+			color: cols[Math.floor(Math.random() * cols.length)],
 			from: [
 				Math.floor(Math.random() * viewport.height),
 				Math.floor(Math.random() * viewport.width),
@@ -51,7 +53,7 @@
 		if (!isDrag || isDrawing) return
 		isDrawing = true
 		createNewPath({
-			color: colors[Math.floor(Math.random() * colors.length)],
+			color: cols[Math.floor(Math.random() * cols.length)],
 			from: [
 				Math.floor(Math.random() * viewport.height),
 				Math.floor(Math.random() * viewport.width),
@@ -74,7 +76,7 @@
 		inactivityTimer = setTimeout(() => {
 			count++
 			createNewPath({
-				color: colors[Math.floor(Math.random() * colors.length)],
+				color: cols[Math.floor(Math.random() * cols.length)],
 				from: point,
 				to: [
 					Math.floor(Math.random() * viewport.height),
