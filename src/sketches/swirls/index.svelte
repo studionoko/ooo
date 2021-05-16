@@ -5,6 +5,8 @@
 
 	let cols = getRandomColors(['pastel', 'blues', 'reds', 'oranges', 'greens', 'purples'])
 
+	export const name = 'Swirls'
+
 	let paths = []
 	let count = 0
 	let point = [0, 0]
@@ -14,6 +16,10 @@
 	let viewport = { width: 1920, height: 1080 }
 
 	$: shouldDoShit = count < 50
+
+	export const clear = () => {
+		paths = []
+	}
 
 	const createNewPath = path => {
 		paths = [...paths, path]

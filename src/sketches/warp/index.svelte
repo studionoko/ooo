@@ -1,57 +1,55 @@
 <script>
 	import { onMount } from 'svelte'
 	import { getRandomColors } from '@kvasi/colors'
-	import Uhh from './components/Uhh.svelte'
+	import Circle from './components/Circle.svelte'
 
-	let cols = getRandomColors()
+	export const name = 'Warp'
 
-	export const name = 'Stamps'
+	const cols = getRandomColors()
 
-	let uhhs = []
-	let isDrag = false
-	let isDrawing = false
-	let inactivityTimer = null
+	let circles = []
 	let viewport = { width: 1920, height: 1080 }
+	let isDrag,
+			isDrawing
 
 	export const clear = () => {
-		uhhs = []
+		circles = []
 	}
 
-	const createNewUhh = uhh => {
-		uhhs = [...uhhs, uhh]
+	const createNewCircle = circle => {
+		circles = [...circles, circle]
 	}
 
 	const handleClick = ev => {
-		restartTimer()
-
-		createNewUhh({
+		createNewCircle({
 			color: cols[Math.floor(Math.random() * cols.length)],
-			top: ev.pageY,
-			left: ev.pageX,
+			y: ev.pageY,
+			x: ev.pageX,
 		})
 	}
 	const handleMouseDown = ev => {
 		isDrag = true
-		cols = getRandomColors()
 	}
-	const handleMouseUp = ev => isDrag = false
+	const handleMouseUp = ev => {
+		isDrag = false
+	}
 	const handleMouseMove = ev => {
 		if (!isDrag || isDrawing) return
 		isDrawing = true
-		createNewUhh({
+		createNewCircle({
 			color: cols[Math.floor(Math.random() * cols.length)],
-			top: ev.pageY,
-			left: ev.pageX,
+			y: ev.pageY,
+			x: ev.pageX,
 		})
 		setTimeout(() => isDrawing = false, 10);
 	}
 	const handleTouchMove = ev => {
 		if (!isDrag || isDrawing) return
 		isDrawing = true
-		createNewUhh({
+		createNewCircle({
 			color: cols[Math.floor(Math.random() * cols.length)],
-			top: ev.touches[0].clientY,
-			left: ev.touches[0].clientX,
+			x: ev.touches[0].clientX,
+			y: ev.touches[0].clientY,
 		})
 		setTimeout(() => isDrawing = false, 10);
 	}
@@ -62,23 +60,7 @@
 		}
 	}
 
-	const startAnimation = () => {
-		inactivityTimer = setInterval(() => {
-			createNewUhh({
-				color: cols[Math.floor(Math.random() * cols.length)],
-				top: Math.floor(Math.random() * viewport.height),
-				left: Math.floor(Math.random() * viewport.width),
-			})
-		}, 1000)
-	}
-	const restartTimer = () => {
-		clearTimeout(inactivityTimer)
-		clearInterval(inactivityTimer)
-		inactivityTimer = setTimeout(startAnimation, 50)
-	}
-
 	onMount(() => {
-		restartTimer()
 		handleResize()
 
 		window.addEventListener('resize', handleResize)
@@ -95,13 +77,20 @@
 	})
 </script>
 
-{#each uhhs as u}
-	{#if u.top !== 0}
-		<Uhh color={u.color} top={u.top} left={u.left}/>
-	{/if}
-{/each}
+<svg width={viewport.width} height={viewport.height} viewBox={`0 0 ${viewport.width} ${viewport.height}`} fill="none">
+	{#each circles as c}
+		<Circle pos={[c.x, c.y]} color={c.color} size={25}/>
+	{/each}
+</svg>
 
 <style>
+svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+	width: 100%;
+	height: 100%;
+}
 :global(body) {
 	-webkit-tap-highlight-color: none;
 	overscroll-behavior: contain;

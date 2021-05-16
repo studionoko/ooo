@@ -4,7 +4,15 @@
 
   import Stamps from './sketches/stamps/index.svelte'
   import Swirls from './sketches/swirls/index.svelte'
+  import Warp from './sketches/warp/index.svelte'
 
+  const sketches = [
+    Swirls,
+    Stamps,
+    Warp,
+  ]
+
+  let current
   let url
 
   const refresh = async () => {
@@ -19,18 +27,26 @@
 <Router {url}>
   <main>
     <Route path="/" component={Swirls}/>
-    <Route path="sketch/stamps" component={Stamps}/>
-    <Route path="sketch/swirls" component={Swirls}/>
+    {#each sketches as sketch}
+      <Route path={`sketch/${sketch.name.toLowerCase()}`}>
+        <svelte:component this={sketch} bind:this={current}/>
+      </Route>
+    {/each}
   </main>
   <nav class="nav">
-    <Link class="link" to="sketch/swirls">Swirls</Link>
-    <Link class="link" to="sketch/stamps">Stamps</Link>
+    {#each sketches as sketch}
+      <Link class="link" to={`sketch/${sketch.name.toLowerCase()}`}>{ sketch.name }</Link>
+    {/each}
   </nav>
 
 
-  <svg on:click={refresh} class="refresh" width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg on:click={refresh} class="refresh" width="500" height="500" viewBox="0 0 500 500" fill="none">
     <path d="M250 478.74C376.33 478.74 478.74 376.33 478.74 250C478.74 189.53 455.275 134.541 416.955 93.6401V151.203H395.694V59.284H487.613V80.5441H433.808C474.899 125.093 500 184.615 500 250C500 388.071 388.071 500 250 500C206.49 500 165.576 488.885 129.943 469.339V444.738C164.84 466.298 205.967 478.74 250 478.74Z" fill="black"/>
     <path d="M81.7947 405.014C44.2148 364.257 21.2601 309.809 21.2601 250C21.2601 123.67 123.67 21.2601 250 21.2601C293.508 21.2601 334.179 33.4073 368.807 54.4953V29.9795C333.468 10.857 293.002 0 250 0C111.929 0 0 111.929 0 250C0 314.775 24.6347 373.796 65.0463 418.205H11.136V439.465H103.055V347.547H81.7947V405.014Z" fill="black"/>
+  </svg>
+
+  <svg on:click|stopPropagation={current.clear} class="refresh refresh--clear" width="500" height="500" viewBox="0 0 500 500" fill="none">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M264.853 250L492.219 22.6338L477.366 7.78082L250 235.147L22.6338 7.78076L7.78087 22.6337L235.147 250L7.78087 477.366L22.6338 492.219L250 264.853L477.366 492.219L492.219 477.366L264.853 250Z" fill="black"/>
   </svg>
 
   <div class="logo">

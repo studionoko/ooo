@@ -152,8 +152,15 @@ body {
     opacity: 0.5;
   }
 
+  &--clear {
+    left: 4rem;
+  }
+
   @media screen and (min-width: 768px) {
     width: 3.5rem;
     height: 3.5rem;
+    &--clear {
+      left: 5rem;
+    }
   }
 }
