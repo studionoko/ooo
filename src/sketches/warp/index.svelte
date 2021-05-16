@@ -9,6 +9,7 @@
 	let tick = 0
 	let count = 0
 	let viewport = { width: 1920, height: 1080 }
+	let raf
 	let isDrag,
 			isDrawing
 
@@ -16,6 +17,7 @@
 
 	export const clear = () => {
 		circles = []
+		cancelAnimationFrame(raf)
 	}
 
 	const createNewCircle = circle => {
@@ -83,7 +85,7 @@
 			})
 
 			if (shouldDoShit) {
-				requestAnimationFrame(draw)
+				raf = requestAnimationFrame(draw)
 			}
 		}, randomBetween(1, 10))
 	}
@@ -91,9 +93,7 @@
 	onMount(() => {
 		handleResize()
 
-		requestAnimationFrame(() => {
-			draw();
-		})
+		raf = requestAnimationFrame(draw)
 
 		window.addEventListener('resize', handleResize)
 
