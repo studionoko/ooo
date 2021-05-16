@@ -5,9 +5,7 @@
 
 	const cols = getRandomColors()
 
-	export const meta = {
-		name: 'Warp',
-	}
+	export const name = 'Warp'
 
 	let circles = []
 	let viewport = { width: 1920, height: 1080 }
