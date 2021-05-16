@@ -5,8 +5,6 @@
 
 	let cols = getRandomColors()
 
-	export const name = 'Stamps'
-
 	let uhhs = []
 	let isDrag = false
 	let isDrawing = false

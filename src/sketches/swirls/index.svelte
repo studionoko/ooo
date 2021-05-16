@@ -5,13 +5,12 @@
 
 	let cols = getRandomColors(['pastel', 'blues', 'reds', 'oranges', 'greens', 'purples'])
 
-	export const name = 'Swirls'
-
 	let paths = []
 	let count = 0
 	let point = [0, 0]
 	let isDrag = false
 	let isDrawing = false
+	let drawingInterval = null
 	let inactivityTimer = null
 	let viewport = { width: 1920, height: 1080 }
 
@@ -38,13 +37,26 @@
 	const handleMouseDown = ev => {
 		isDrag = true
 		cols = getRandomColors(['pastel', 'blues', 'reds', 'oranges', 'greens', 'purples'])
+
+		drawingInterval = setInterval(() => {
+			createNewPath({
+				color: cols[Math.floor(Math.random() * cols.length)],
+				from: [
+					Math.floor(Math.random() * viewport.height),
+					Math.floor(Math.random() * viewport.width),
+				],
+				to: [ ev.pageX, ev.pageY ],
+			})
+		}, 20)
 	}
 	const handleMouseUp = ev => {
 		isDrag = false
+		clearInterval(drawingInterval)
 	}
 	const handleMouseMove = ev => {
 		if (!isDrag || isDrawing) return
 		isDrawing = true
+		clearInterval(drawingInterval)
 		createNewPath({
 			color: cols[Math.floor(Math.random() * cols.length)],
 			from: [
@@ -83,8 +95,8 @@
 			count++
 			createNewPath({
 				color: cols[Math.floor(Math.random() * cols.length)],
-				from: point,
-				to: [
+				to: point,
+				from: [
 					Math.floor(Math.random() * viewport.height),
 					Math.floor(Math.random() * viewport.width),
 				],

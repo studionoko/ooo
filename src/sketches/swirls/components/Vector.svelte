@@ -21,9 +21,9 @@
   $: position = `M${to[0]} ${to[1]} C${a} ${ac} ${b} ${bc} ${from[0]} ${from[1]}`
 
   onMount(() => {
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       dashLength = el.getTotalLength()
-    }, 100)
+    })
   })
 </script>
 

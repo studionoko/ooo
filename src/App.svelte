@@ -26,7 +26,7 @@
 
 <Router {url}>
   <main>
-    <Route path="/" component={Swirls}/>
+    <Route path="/"><Swirls bind:this={current}/></Route>
     {#each sketches as sketch}
       <Route path={`sketch/${sketch.name.toLowerCase()}`}>
         <svelte:component this={sketch.component} bind:this={current}/>

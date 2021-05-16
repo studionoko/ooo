@@ -79,7 +79,7 @@ body {
 
   @media screen and (min-width: 768px) {
     .link::after {
-      border-width: 0.25rem;
+      border-width: 0.23rem;
     }
   }
 }
@@ -154,6 +154,7 @@ body {
 
   &--clear {
     left: 4rem;
+    animation: none;
   }
 
   @media screen and (min-width: 768px) {

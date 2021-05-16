@@ -5,12 +5,14 @@
 
 	const cols = getRandomColors()
 
-	export const name = 'Warp'
-
 	let circles = []
+	let tick = 0
+	let count = 0
 	let viewport = { width: 1920, height: 1080 }
 	let isDrag,
 			isDrawing
+
+	$: shouldDoShit = count < 150
 
 	export const clear = () => {
 		circles = []
@@ -60,8 +62,38 @@
 		}
 	}
 
+	const randomBetween = (min, max) => {
+		return Math.floor(Math.random() * max) + min
+	}
+
+	const draw = () => {
+		tick++
+		setTimeout(() => {
+			count++
+			const yBase = viewport.height / 2 + Math.sin(tick) * randomBetween(1, 2) * tick
+			const xBase = viewport.width / 2 + Math.cos(tick) * randomBetween(1, 2) * tick
+
+			const current = {
+				y: yBase,
+				x: xBase,
+			}
+			createNewCircle({
+				color: cols[Math.floor(Math.random() * cols.length)],
+				...current,
+			})
+
+			if (shouldDoShit) {
+				requestAnimationFrame(draw)
+			}
+		}, randomBetween(1, 10))
+	}
+
 	onMount(() => {
 		handleResize()
+
+		requestAnimationFrame(() => {
+			draw();
+		})
 
 		window.addEventListener('resize', handleResize)
 
