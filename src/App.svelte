@@ -7,9 +7,9 @@
   import Warp from './sketches/warp/index.svelte'
 
   const sketches = [
-    Swirls,
-    Stamps,
-    Warp,
+    { name: 'Swirls', component: Swirls },
+    { name: 'Stamps', component: Stamps },
+    { name: 'Warp',   component: Warp },
   ]
 
   let current
@@ -29,7 +29,7 @@
     <Route path="/" component={Swirls}/>
     {#each sketches as sketch}
       <Route path={`sketch/${sketch.name.toLowerCase()}`}>
-        <svelte:component this={sketch} bind:this={current}/>
+        <svelte:component this={sketch.component} bind:this={current}/>
       </Route>
     {/each}
   </main>
