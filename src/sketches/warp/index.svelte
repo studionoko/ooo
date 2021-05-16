@@ -3,9 +3,11 @@
 	import { getRandomColors } from '@kvasi/colors'
 	import Circle from './components/Circle.svelte'
 
-	export const name = 'Warp'
-
 	const cols = getRandomColors()
+
+	export const meta = {
+		name: 'Warp',
+	}
 
 	let circles = []
 	let viewport = { width: 1920, height: 1080 }

@@ -28,14 +28,14 @@
   <main>
     <Route path="/" component={Swirls}/>
     {#each sketches as sketch}
-      <Route path={`sketch/${sketch.name.toLowerCase()}`}>
+      <Route path={`sketch/${sketch.meta.name.toLowerCase()}`}>
         <svelte:component this={sketch} bind:this={current}/>
       </Route>
     {/each}
   </main>
   <nav class="nav">
     {#each sketches as sketch}
-      <Link class="link" to={`sketch/${sketch.name.toLowerCase()}`}>{ sketch.name }</Link>
+      <Link class="link" to={`sketch/${sketch.meta.name.toLowerCase()}`}>{ sketch.meta.name }</Link>
     {/each}
   </nav>
 

@@ -5,7 +5,9 @@
 
 	let cols = getRandomColors(['pastel', 'blues', 'reds', 'oranges', 'greens', 'purples'])
 
-	export const name = 'Swirls'
+	export const meta = {
+		name: 'Swirls',
+	}
 
 	let paths = []
 	let count = 0
