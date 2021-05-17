@@ -6,6 +6,7 @@
   export let color = 'white'
 
   let el
+  let raf
   let dashLength = 1000
   const curve = '107.304 -0.28566 364.26 -65.0555'
 
@@ -21,9 +22,12 @@
   $: position = `M${to[0]} ${to[1]} C${a} ${ac} ${b} ${bc} ${from[0]} ${from[1]}`
 
   onMount(() => {
-    requestAnimationFrame(() => {
+    raf = requestAnimationFrame(() => {
       dashLength = el.getTotalLength()
     })
+    return () => {
+      cancelAnimationFrame(raf)
+    }
   })
 </script>
 

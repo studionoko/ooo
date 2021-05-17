@@ -1,5 +1,5 @@
 <script>
-  import { tick } from 'svelte'
+  import { tick, onMount } from 'svelte'
   import { Router, Route, Link, navigate } from 'svelte-routing'
 
   import Stamps from './sketches/stamps/index.svelte'
@@ -21,6 +21,15 @@
     await tick()
     navigate(curUrl)
   }
+  const onContextMenu = ev => {
+    ev.preventDefault()
+    ev.stopPropagation()
+    return false
+  }
+
+  onMount(() => {
+    window.addEventListener('contextmenu', onContextMenu)
+  })
 
 </script>
 

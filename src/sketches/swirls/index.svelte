@@ -45,7 +45,7 @@
 					Math.floor(Math.random() * viewport.height),
 					Math.floor(Math.random() * viewport.width),
 				],
-				to: [ ev.pageX, ev.pageY ],
+				to: [ ev.pageX || ev.touches[0].clientX, ev.pageY || ev.touches[0].clientY ],
 			})
 		}, 20)
 	}
