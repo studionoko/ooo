@@ -1,22 +1,29 @@
 <script>
 	import { onMount } from 'svelte'
-	import { getRandomColors } from '@kvasi/colors'
+	import { getRandomColorsFromCategory } from '@kvasi/colors'
+	import { map } from '@kvasi/tools'
 	import Circle from './components/Circle.svelte'
 
-	const cols = getRandomColors()
+	const cols = getRandomColorsFromCategory('galaxy')
+	const limit = 250
 
 	let circles = []
-	let tick = 0
 	let count = 0
 	let viewport = { width: 1920, height: 1080 }
-	let raf
+	let raf,
+			rafTimeout
 	let isDrag,
 			isDrawing
+	let yFactor,
+			xFactor,
+			widthFactor,
+			heightFactor
 
-	$: shouldDoShit = count < 150
+	$: shouldDoShit = count < limit
 
 	export const clear = () => {
 		circles = []
+		clearTimeout(rafTimeout)
 		cancelAnimationFrame(raf)
 	}
 
@@ -65,15 +72,18 @@
 	}
 
 	const randomBetween = (min, max) => {
-		return Math.floor(Math.random() * max) + min
+		return Math.round(
+	    (Math.random() * (max - min) + min) * 100
+	  ) / 100
 	}
 
 	const draw = () => {
-		tick++
-		setTimeout(() => {
-			count++
-			const yBase = viewport.height / 2 + Math.sin(tick) * randomBetween(1, 2) * tick
-			const xBase = viewport.width / 2 + Math.cos(tick) * randomBetween(1, 2) * tick
+		count++
+
+		rafTimeout = setTimeout(() => {
+			const countFactor = map(count, 0, limit, 15, 200)
+			const yBase = viewport.height / 2 + Math.sin(count/yFactor) * countFactor * heightFactor
+			const xBase = viewport.width / 2 + Math.cos(count/xFactor) * countFactor * widthFactor
 
 			const current = {
 				y: yBase,
@@ -86,18 +96,24 @@
 
 			if (shouldDoShit) {
 				raf = requestAnimationFrame(draw)
+			} else {
+				cancelAnimationFrame(raf)
 			}
-		}, randomBetween(1, 10))
+		}, 5)
 	}
 
 	onMount(() => {
 		handleResize()
 
+		yFactor = randomBetween(10.75, 10.85)
+		xFactor = randomBetween(11, 11.15)
+		heightFactor = randomBetween(1.15, 1.40)
+		widthFactor = randomBetween(2.15, 2.65)
+
 		raf = requestAnimationFrame(draw)
 
-		window.addEventListener('resize', handleResize)
-
 		requestAnimationFrame(() => {
+			window.addEventListener('resize', handleResize)
 			window.addEventListener('click', handleClick)
 			window.addEventListener('mousedown', handleMouseDown)
 			window.addEventListener('mouseup', handleMouseUp)
@@ -106,12 +122,16 @@
 			window.addEventListener('touchend', handleMouseUp)
 			window.addEventListener('touchmove', handleTouchMove)
 		})
+
+		return () => {
+			clear()
+		}
 	})
 </script>
 
 <svg width={viewport.width} height={viewport.height} viewBox={`0 0 ${viewport.width} ${viewport.height}`} fill="none">
-	{#each circles as c}
-		<Circle pos={[c.x, c.y]} color={c.color} size={25}/>
+	{#each circles as { x, y, color }}
+		<Circle pos={[x, y]} color={color} size={25}/>
 	{/each}
 </svg>
 
