@@ -5,10 +5,12 @@
 	import Circle from './components/Circle.svelte'
 
 	const cols = getRandomColorsFromCategory('galaxy')
-	const limit = 250
+	const limit = 500
 
 	let circles = []
 	let count = 0
+	let velocity = 10
+	let spreadFactor = 100
 	let viewport = { width: 1920, height: 1080 }
 	let raf,
 			rafTimeout
@@ -20,6 +22,15 @@
 			heightFactor
 
 	$: shouldDoShit = count < limit
+
+	const setup = () => {
+		velocity = 1;
+		yFactor = randomBetween(10.5, 12)
+		xFactor = randomBetween(11.2, 12.5)
+		heightFactor = randomBetween(1.25, 1.80)
+		widthFactor = randomBetween(2.15, 2.85)
+		spreadFactor = randomBetween(120, 400)
+	}
 
 	export const clear = () => {
 		circles = []
@@ -81,7 +92,7 @@
 		count++
 
 		rafTimeout = setTimeout(() => {
-			const countFactor = map(count, 0, limit, 15, 200)
+			const countFactor = map(count, 0, limit, 15, spreadFactor)
 			const yBase = viewport.height / 2 + Math.sin(count/yFactor) * countFactor * heightFactor
 			const xBase = viewport.width / 2 + Math.cos(count/xFactor) * countFactor * widthFactor
 
@@ -95,20 +106,18 @@
 			})
 
 			if (shouldDoShit) {
-				raf = requestAnimationFrame(draw)
+				// raf = requestAnimationFrame(draw)
+				draw()
 			} else {
 				cancelAnimationFrame(raf)
 			}
-		}, 5)
+		}, velocity)
 	}
 
 	onMount(() => {
 		handleResize()
 
-		yFactor = randomBetween(10.75, 10.85)
-		xFactor = randomBetween(11, 11.15)
-		heightFactor = randomBetween(1.15, 1.40)
-		widthFactor = randomBetween(2.15, 2.65)
+		setup()
 
 		raf = requestAnimationFrame(draw)
 
@@ -135,7 +144,7 @@
 	{/each}
 </svg>
 
-<style>
+<style lang="scss">
 svg {
   position: absolute;
   top: 0;

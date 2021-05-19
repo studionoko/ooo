@@ -16,7 +16,7 @@
 circle {
   stroke-width: 0.25rem;
   transform: scale(0);
-  transform-origin: 50% 50%;
+  transform-origin: 50% 0;
   animation: init 0.5s forwards ease;
 }
 </style>
