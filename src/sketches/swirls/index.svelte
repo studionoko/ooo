@@ -3,7 +3,7 @@
 	import { getRandomColors } from '@kvasi/colors'
 	import Vector from './components/Vector.svelte'
 
-	let cols = getRandomColors(['pastel', 'blues', 'reds', 'oranges', 'greens', 'purples'])
+	let cols = getRandomColors(['blues', 'reds', 'oranges', 'greens', 'purples'])
 
 	let paths = []
 	let count = 0
@@ -18,6 +18,8 @@
 
 	export const clear = () => {
 		paths = []
+		clearInterval(drawingInterval)
+		clearTimeout(inactivityTimer)
 	}
 
 	const createNewPath = path => {
@@ -28,22 +30,22 @@
 		createNewPath({
 			color: cols[Math.floor(Math.random() * cols.length)],
 			from: [
-				Math.floor(Math.random() * viewport.height),
-				Math.floor(Math.random() * viewport.width),
+				Math.round(Math.random() * viewport.height),
+				Math.round(Math.random() * viewport.width),
 			],
 			to: [ ev.pageX, ev.pageY ],
 		})
 	}
 	const handleMouseDown = ev => {
 		isDrag = true
-		cols = getRandomColors(['pastel', 'blues', 'reds', 'oranges', 'greens', 'purples'])
+		cols = getRandomColors(['blues', 'reds', 'oranges', 'greens', 'purples'])
 
 		drawingInterval = setInterval(() => {
 			createNewPath({
 				color: cols[Math.floor(Math.random() * cols.length)],
 				from: [
-					Math.floor(Math.random() * viewport.height),
-					Math.floor(Math.random() * viewport.width),
+					Math.round(Math.random() * viewport.height),
+					Math.round(Math.random() * viewport.width),
 				],
 				to: [ ev.pageX || ev.touches[0].clientX, ev.pageY || ev.touches[0].clientY ],
 			})
@@ -51,6 +53,7 @@
 	}
 	const handleMouseUp = ev => {
 		isDrag = false
+		isDrawing = false
 		clearInterval(drawingInterval)
 	}
 	const handleMouseMove = ev => {
@@ -60,8 +63,8 @@
 		createNewPath({
 			color: cols[Math.floor(Math.random() * cols.length)],
 			from: [
-				Math.floor(Math.random() * viewport.height),
-				Math.floor(Math.random() * viewport.width),
+				Math.round(Math.random() * viewport.height),
+				Math.round(Math.random() * viewport.width),
 			],
 			to: [ ev.pageX, ev.pageY ],
 		})
@@ -73,8 +76,8 @@
 		createNewPath({
 			color: cols[Math.floor(Math.random() * cols.length)],
 			from: [
-				Math.floor(Math.random() * viewport.height),
-				Math.floor(Math.random() * viewport.width),
+				Math.round(Math.random() * viewport.height),
+				Math.round(Math.random() * viewport.width),
 			],
 			to: [
 				ev.touches[0].clientX,
@@ -97,8 +100,8 @@
 				color: cols[Math.floor(Math.random() * cols.length)],
 				to: point,
 				from: [
-					Math.floor(Math.random() * viewport.height),
-					Math.floor(Math.random() * viewport.width),
+					Math.round(Math.random() * viewport.height),
+					Math.round(Math.random() * viewport.width),
 				],
 			})
 			if (shouldDoShit) startAnimation()
@@ -123,7 +126,6 @@
 		window.addEventListener('resize', handleResize)
 
 		requestAnimationFrame(() => {
-			window.addEventListener('click', handleClick)
 			window.addEventListener('mousedown', handleMouseDown)
 			window.addEventListener('mouseup', handleMouseUp)
 			window.addEventListener('mousemove', handleMouseMove)
