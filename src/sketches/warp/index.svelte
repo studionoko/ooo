@@ -106,8 +106,7 @@
 			})
 
 			if (shouldDoShit) {
-				// raf = requestAnimationFrame(draw)
-				draw()
+				raf = requestAnimationFrame(draw)
 			} else {
 				cancelAnimationFrame(raf)
 			}
