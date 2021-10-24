@@ -5,11 +5,13 @@
   import Stamps from './sketches/stamps/index.svelte'
   import Swirls from './sketches/swirls/index.svelte'
   import Warp from './sketches/warp/index.svelte'
+  import Mondriaan from './sketches/mondriaan/index.svelte'
 
   const sketches = [
-    { name: 'Swirls', component: Swirls },
-    { name: 'Stamps', component: Stamps },
-    { name: 'Warp',   component: Warp },
+    { name: 'Swirls',     component: Swirls },
+    { name: 'Stamps',     component: Stamps },
+    { name: 'Warp',       component: Warp },
+    { name: 'Plastic',    component: Mondriaan },
   ]
 
   let current
