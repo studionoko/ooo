@@ -5,7 +5,8 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public -s --no-clear"
+    "start": "sirv public -s --no-clear",
+    "host": "sirv public -s --no-clear --host"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
@@ -21,8 +22,11 @@
     "svelte-preprocess": "^4.7.3"
   },
   "dependencies": {
+    "@ashthornton/asscroll": "^2.0.2",
     "@kvasi/colors": "^0.3.0",
     "@kvasi/tools": "^0.1.0",
+    "canvas-sketch": "^0.7.4",
+    "canvas-sketch-util": "^1.10.0",
     "sirv-cli": "^1.0.0",
     "svelte-routing": "^1.6.0"
   }

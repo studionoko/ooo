@@ -93,21 +93,18 @@
 	})
 </script>
 
-{#each uhhs as u}
-	{#if u.top !== 0}
-		<Uhh color={u.color} top={u.top} left={u.left}/>
-	{/if}
-{/each}
+<div class="wrapper">
+	{#each uhhs as u}
+		{#if u.top !== 0}
+			<Uhh color={u.color} top={u.top} left={u.left}/>
+		{/if}
+	{/each}
+</div>
 
 <style>
-:global(body) {
-	-webkit-tap-highlight-color: none;
-	overscroll-behavior: contain;
-	overflow: hidden;
-}
-@media screen and (min-width: 768px) {
 	:global(body) {
-		cursor: pointer;
+		-webkit-tap-highlight-color: none;
+		overscroll-behavior: contain;
+		overflow: hidden;
 	}
-}
 </style>

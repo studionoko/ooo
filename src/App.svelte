@@ -5,11 +5,13 @@
   import Stamps from './sketches/stamps/index.svelte'
   import Swirls from './sketches/swirls/index.svelte'
   import Warp from './sketches/warp/index.svelte'
+  import Frames from './sketches/frames/index.svelte'
 
   const sketches = [
+    { name: 'Frames', component: Frames },
     { name: 'Swirls', component: Swirls },
-    { name: 'Stamps', component: Stamps },
     { name: 'Warp',   component: Warp },
+    { name: 'Stamps', component: Stamps },
   ]
 
   let current
@@ -35,7 +37,7 @@
 
 <Router {url}>
   <main>
-    <Route path="/"><Swirls bind:this={current}/></Route>
+    <Route path="/"><Frames bind:this={current}/></Route>
     {#each sketches as sketch}
       <Route path={`sketch/${sketch.name.toLowerCase()}`}>
         <svelte:component this={sketch.component} bind:this={current}/>
