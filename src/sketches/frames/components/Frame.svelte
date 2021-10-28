@@ -17,8 +17,13 @@
   const onClick = () => {
     manager.render()
   }
-  const onEnterView = () => {
-
+  export const onEnter = () => {
+    // console.log('dis in view', canvas)
+  }
+  export const setNext = () => {
+    console.log('set next')
+    $title = source.meta.name
+    $date = source.meta.date
   }
 
   /**
@@ -84,7 +89,7 @@
     }
     canvas {
       width: 100%;
-      display: inline-block;
+      display: block;
       background: #fff;
     }
     div {
@@ -99,7 +104,11 @@
       left: 0;
       width: 100%;
       height: calc(100% - 3rem);
-      background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1) 25% 75%, rgba(0,0,0,0));
+      background: linear-gradient(to bottom, rgba(white,0), rgba(white,1) 25% 75%, rgba(white,0));
+
+      @media (prefers-color-scheme: dark) {
+        background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1) 25% 75%, rgba(0,0,0,0));
+      }
     }
 
     @media screen and (min-width: 600px) {

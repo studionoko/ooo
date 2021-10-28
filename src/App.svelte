@@ -8,7 +8,6 @@
   import Frames from './sketches/frames/index.svelte'
 
   const sketches = [
-    { name: 'Frames', component: Frames },
     { name: 'Swirls', component: Swirls },
     { name: 'Warp',   component: Warp },
     { name: 'Stamps', component: Stamps },
@@ -38,6 +37,7 @@
 <Router {url}>
   <main>
     <Route path="/"><Frames bind:this={current}/></Route>
+    <Route path="frames"><Frames bind:this={current}/></Route>
     {#each sketches as sketch}
       <Route path={`sketch/${sketch.name.toLowerCase()}`}>
         <svelte:component this={sketch.component} bind:this={current}/>
@@ -45,6 +45,7 @@
     {/each}
   </main>
   <nav class="nav">
+    <Link class="link" to="frames">Frames</Link>
     {#each sketches as sketch}
       <Link class="link" to={`sketch/${sketch.name.toLowerCase()}`}>{ sketch.name }</Link>
     {/each}

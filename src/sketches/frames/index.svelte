@@ -1,15 +1,16 @@
 <script>
 	import { onMount, tick } from 'svelte'
-	import ASScroll from '@ashthornton/asscroll'
 	import { getRandomColors } from '@kvasi/colors'
 	import Frame from './components/Frame.svelte'
+	import Scroll from './scroll'
 	import { title, date } from './store'
 
 	import F_2021_10_24 from './assets/2021-10-24/index.js'
 	import F_Test from './assets/test/index.js'
 	import F_Circles from './assets/circles/index.js'
 
-	let asscroll
+	let scroll
+	let observer
 	let content
 	let cols = getRandomColors()
 
@@ -17,28 +18,33 @@
 		F_Circles,
 		F_2021_10_24,
 		F_Test,
-	]
+	].map(f => ({ source: f, ref: null, component: null }))
 
 	export const clear = () => {
 		console.log('clearin?')
 	}
 
 	const update = () => {
-		if (asscroll) {
-			asscroll.update()
-		}
+		scroll.update()
 		requestAnimationFrame(update)
 	}
 
 	const init = async () => {
-		const first = frames[0]
-		$title = first.meta.name
-		$date = first.meta.date
+		// Get initial frame meta
+		const first = frames[0].source.meta
+		$title = first.name
+		$date = first.date
 
+		// Wait a tick…
 		await tick()
 
-		asscroll = new ASScroll({ disableRaf: true })
-		asscroll.enable({ restore: true })
+		// Init asscroll
+		scroll = new Scroll()
+		scroll.observe(frames)
+
+		setTimeout(() => {
+			scroll.toIndex(0)
+		}, 1500)
 
 		update()
 	}
@@ -46,8 +52,7 @@
 	const destroy = () => {
 		cancelAnimationFrame(update)
 
-		asscroll.disable()
-		asscroll = undefined
+		scroll.destroy()
 	}
 
 	onMount(() => {
@@ -62,11 +67,14 @@
 		<h2>{$title}</h2>
 		<h4>{$date}</h4>
 	</div>
-	<div class="content" asscroll>
-		{#each frames as frame}
-			<Frame source={frame} />
+	<ul class="content" asscroll bind:this={content}>
+		<li class="intro"></li>
+		{#each frames as { source, component, ref }}
+			<li bind:this={ref}>
+				<Frame {source} bind:this={component} />
+			</li>
 		{/each}
-	</div>
+	</ul>
 </section>
 
 <style lang="scss">
@@ -116,9 +124,17 @@
 		min-height: 100vh;
 	}
 
+	.intro {
+		width: 100%;
+		height: 90vh;
+	}
+
 	.content {
+		list-style: none;
 		display: block;
+		width: 100%;
 		height: auto;
 		padding: 0;
+		margin: 0;
 	}
 </style>
