@@ -2,6 +2,8 @@
 	import { onMount, tick } from 'svelte'
 	import { getRandomColors } from '@kvasi/colors'
 	import Frame from './components/Frame.svelte'
+	import { gsap } from 'gsap'
+	import { ScrollTrigger } from 'gsap/ScrollTrigger'
 	import Scroll from './scroll'
 	import { title, date } from './store'
 
@@ -9,9 +11,11 @@
 	import F_Test from './assets/test/index.js'
 	import F_Circles from './assets/circles/index.js'
 
+	gsap.registerPlugin(ScrollTrigger)
+
 	let scroll
-	let observer
 	let content
+	let introTimer
 	let cols = getRandomColors()
 
 	const frames = [
@@ -22,11 +26,6 @@
 
 	export const clear = () => {
 		console.log('clearin?')
-	}
-
-	const update = () => {
-		scroll.update()
-		requestAnimationFrame(update)
 	}
 
 	const init = async () => {
@@ -40,32 +39,41 @@
 
 		// Init asscroll
 		scroll = new Scroll()
-		scroll.observe(frames)
 
-		setTimeout(() => {
-			scroll.toIndex(0)
-		}, 1500)
+		// Init scrolltrigger
+		ScrollTrigger.defaults({
+			scroller: scroll.scroll.containerElement
+		})
 
-		update()
+		// Use gsap's ticker method
+		gsap.ticker.add(scroll.update)
+
+		scroll.on('update', ScrollTrigger.update)
+
+		// Scroll to first frame
+		const timeout = (first.name.length * 100) + (first.date.length * 100)
+		introTimer = setTimeout(() => {
+			if (scroll.position < 100) {
+				scroll.to(frames[0].ref.offsetTop)
+			}
+		}, timeout)
 	}
 
 	const destroy = () => {
-		cancelAnimationFrame(update)
-
 		scroll.destroy()
+		clearTimeout(introTimer)
 	}
 
 	onMount(() => {
 		init()
-
 		return destroy
 	})
 </script>
 
 <section class="frames" asscroll-container>
 	<div class="title">
-		<h2>{$title}</h2>
-		<h4>{$date}</h4>
+		<h2>{#each $title.split(' ') as w}<span>{w}</span> {/each}</h2>
+		<h4>{#each $date.split(' ') as w}<span>{w}</span> {/each}</h4>
 	</div>
 	<ul class="content" asscroll bind:this={content}>
 		<li class="intro"></li>
@@ -84,6 +92,12 @@
 		overflow: hidden;
 	}
 
+	@keyframes up {
+		from {
+			transform: translateY(100%);
+		}
+	}
+
 	.title {
 		display: flex;
 		flex-direction: column;
@@ -97,9 +111,22 @@
 		height: 100%;
 
 		h2, h4 {
+			display: inline-block;
 			margin: 0;
 		  line-height: 1em;
 		  text-align: center;
+			overflow: hidden;
+		  span {
+		  	display: inline-block;
+				position: relative;
+		  	animation: up 1s 0.1s backwards;
+		  	&:nth-child(1) { animation-delay: 0.15s; }
+		  	&:nth-child(2) { animation-delay: 0.20s; }
+		  	&:nth-child(3) { animation-delay: 0.25s; }
+		  	&:nth-child(4) { animation-delay: 0.30s; }
+		  	&:nth-child(5) { animation-delay: 0.35s; }
+		  	&:nth-child(6) { animation-delay: 0.40s; }
+		  }
 		}
 		h2 {
 			font-family: 'Inter', sans-serif;
