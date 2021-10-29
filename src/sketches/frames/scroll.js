@@ -5,6 +5,7 @@ export default class Scroll {
     this.initialized = false
     this.scroll = undefined
     this.el = undefined
+    this.elements = []
     this.pos = 0
 
     this.init = this.init.bind(this)

@@ -4,7 +4,7 @@ import Noise from './Noise'
 
 const meta = {
   name: '002 blå',
-  date: '15. September 2021',
+  date: '03. august 2021',
 }
 
 const settings = {

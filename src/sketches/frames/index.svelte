@@ -15,6 +15,7 @@
 
 	let scroll
 	let content
+	let index = 0
 	let introTimer
 	let isAnimatingTitle = true
 	let cols = getRandomColors()
@@ -62,11 +63,14 @@
 
 		scroll.on('update', ScrollTrigger.update)
 
+		console.log(scroll.scroll.scrollElements)
+
 		// Scroll to first frame
 		const timeout = (first.name.length * 100) + (first.date.length * 100)
 		introTimer = setTimeout(() => {
 			if (scroll.position < 100) {
-				scroll.to(frames[0].ref.offsetTop)
+				const { offsetTop, offsetHeight } = frames[0].ref
+				scroll.to(offsetTop)
 			}
 		}, timeout)
 
@@ -74,24 +78,18 @@
 			const f = frames[i]
 			const next = i < frames.length-1 ? frames[i+1] : false
 
-			gsap.from(f.ref, {
+			gsap.from(f.ref.querySelector('figure'), {
 				scrollTrigger: {
-					end: '-40%',
+					start: 'top bottom',
+					end: 'top 10%',
 					scrub: 0.25,
 					trigger: f.ref,
-					onScrubComplete: ({ direction }) => {
-						console.log('on scrub complete')
-						// on scrub complete, call next if it's going downwards
-						if (direction > 0 && next) {
-							next.component.handleIsNext()
+					onToggle: ({ isActive }) => {
+						if (isActive) {
+							f.component.setTitle()
+							index = i
 						}
-					},
-					onEnter: ({ direction }) => {
-						console.log('on enter')
-						if (direction < 0) {
-							f.component.handleIsNext()
-						}
-					},
+					}
 				},
 				scale: 0.6,
 				ease: 'circ.out',
@@ -118,7 +116,7 @@
 	<ul class="content" asscroll bind:this={content}>
 		<li class="intro"></li>
 		{#each frames as { source, component, ref }, i}
-			<li bind:this={ref}>
+			<li class="item" bind:this={ref}>
 				<Frame {source} bind:this={component} />
 			</li>
 		{/each}
@@ -153,7 +151,7 @@
 		h2, h4 {
 			display: inline-block;
 			margin: 0;
-		  line-height: 1em;
+		  line-height: 1.05em;
 		  text-align: center;
 			overflow: hidden;
 		  span {
@@ -201,7 +199,10 @@
 
 	.intro {
 		width: 100%;
-		height: 90vh;
+		height: 80vh;
+	}
+	.item {
+		padding: 4rem 0;
 	}
 
 	.content {

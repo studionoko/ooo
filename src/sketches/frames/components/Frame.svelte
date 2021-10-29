@@ -18,15 +18,11 @@
     manager.render()
   }
 
-  export const handleIsNext = () => {
-    // console.log('title set...', source.meta.name)
-    setTitle()
-  }
   export const handleEnter = () => {
     // console.log('dis in view', canvas)
   }
 
-  const setTitle = () => {
+  export const setTitle = () => {
     $title = source.meta.name
     $date = source.meta.date
   }
@@ -77,7 +73,7 @@
   .frame {
     width: 100%;
     height: auto;
-    margin: 12rem 0;
+    margin: 8rem 0;
     display: inline-flex;
     justify-content: center;
     align-items: center;
