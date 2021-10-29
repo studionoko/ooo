@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte'
-	import { getRandomColors } from '@kvasi/colors'
+	import { getRandomColors } from '@nokonoko/colors'
 	import Vector from './components/Vector.svelte'
 
 	let cols = getRandomColors(['blues', 'reds', 'oranges', 'greens', 'purples'])

@@ -1,6 +1,6 @@
 <script>
 	import { onMount, tick } from 'svelte'
-	import { getRandomColors } from '@kvasi/colors'
+	import { getRandomColors } from '@nokonoko/colors'
 	import Frame from './components/Frame.svelte'
 	import { gsap } from 'gsap'
 	import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -16,6 +16,7 @@
 	let scroll
 	let content
 	let introTimer
+	let isAnimatingTitle = true
 	let cols = getRandomColors()
 
 	const frames = [
@@ -33,6 +34,8 @@
 		const first = frames[0].source.meta
 		$title = first.name
 		$date = first.date
+
+		setTimeout(() => isAnimatingTitle = false, 1200)
 
 		// Wait a tick…
 		await tick()
@@ -67,18 +70,33 @@
 			}
 		}, timeout)
 
-		frames.forEach(f => {
-			console.log(f.ref)
+		for (let i = 0; i < frames.length; i++) {
+			const f = frames[i]
+			const next = i < frames.length-1 ? frames[i+1] : false
+
 			gsap.from(f.ref, {
 				scrollTrigger: {
-					end: '-50%',
+					end: '-40%',
 					scrub: 0.25,
 					trigger: f.ref,
+					onScrubComplete: ({ direction }) => {
+						console.log('on scrub complete')
+						// on scrub complete, call next if it's going downwards
+						if (direction > 0 && next) {
+							next.component.handleIsNext()
+						}
+					},
+					onEnter: ({ direction }) => {
+						console.log('on enter')
+						if (direction < 0) {
+							f.component.handleIsNext()
+						}
+					},
 				},
 				scale: 0.6,
-				ease: 'none',
+				ease: 'circ.out',
 			})
-		})
+		}
 	}
 
 	const destroy = () => {
@@ -93,7 +111,7 @@
 </script>
 
 <section class="frames" asscroll-container>
-	<div class="title">
+	<div class="title" class:animating={isAnimatingTitle}>
 		<h2>{#each $title.split(' ') as w}<span>{w}</span> {/each}</h2>
 		<h4>{#each $date.split(' ') as w}<span>{w}</span> {/each}</h4>
 	</div>
@@ -141,13 +159,6 @@
 		  span {
 		  	display: inline-block;
 				position: relative;
-		  	animation: up 1s 0.1s backwards;
-		  	&:nth-child(1) { animation-delay: 0.15s; }
-		  	&:nth-child(2) { animation-delay: 0.20s; }
-		  	&:nth-child(3) { animation-delay: 0.25s; }
-		  	&:nth-child(4) { animation-delay: 0.30s; }
-		  	&:nth-child(5) { animation-delay: 0.35s; }
-		  	&:nth-child(6) { animation-delay: 0.40s; }
 		  }
 		}
 		h2 {
@@ -156,8 +167,23 @@
 		  font-variation-settings: 'wght' 300, 'slnt' 0;
 		  text-transform: uppercase;
 		  letter-spacing: -0.02em;
+		  padding-top: 0.4em;
 			@media screen and (min-width: 768px) {
 		    font-size: 2.75rem;
+			}
+		}
+
+		&.animating {
+			h2, h4 {
+				span {
+					animation: up 1s 0.1s backwards;
+			  	&:nth-child(1) { animation-delay: 0.15s; }
+			  	&:nth-child(2) { animation-delay: 0.20s; }
+			  	&:nth-child(3) { animation-delay: 0.25s; }
+			  	&:nth-child(4) { animation-delay: 0.30s; }
+			  	&:nth-child(5) { animation-delay: 0.35s; }
+			  	&:nth-child(6) { animation-delay: 0.40s; }
+				}
 			}
 		}
 	}

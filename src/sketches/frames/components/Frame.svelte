@@ -17,10 +17,16 @@
   const onClick = () => {
     manager.render()
   }
-  export const onEnter = () => {
+
+  export const handleIsNext = () => {
+    // console.log('title set...', source.meta.name)
+    setTitle()
+  }
+  export const handleEnter = () => {
     // console.log('dis in view', canvas)
   }
-  export const setNext = () => {
+
+  const setTitle = () => {
     $title = source.meta.name
     $date = source.meta.date
   }

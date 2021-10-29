@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte'
-	import { getRandomColorsFromCategory } from '@kvasi/colors'
-	import { map } from '@kvasi/tools'
+	import { getRandomColorsFromCategory } from '@nokonoko/colors'
+	import { map } from '@nokonoko/tools'
 	import Circle from './components/Circle.svelte'
 
 	const cols = getRandomColorsFromCategory('galaxy')

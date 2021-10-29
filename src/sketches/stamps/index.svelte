@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte'
-	import { getRandomColors } from '@kvasi/colors'
+	import { getRandomColors } from '@nokonoko/colors'
 	import Uhh from './components/Uhh.svelte'
 
 	let cols = getRandomColors()
