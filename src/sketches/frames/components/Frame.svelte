@@ -21,7 +21,6 @@
     // console.log('dis in view', canvas)
   }
   export const setNext = () => {
-    console.log('set next')
     $title = source.meta.name
     $date = source.meta.date
   }

@@ -42,7 +42,16 @@
 
 		// Init scrolltrigger
 		ScrollTrigger.defaults({
-			scroller: scroll.scroll.containerElement
+			scroller: scroll.el
+		})
+
+		ScrollTrigger.scrollerProxy(scroll.el, {
+			scrollTop(val) {
+				return arguments.length ? scroll.position = val : scroll.position;
+			},
+			getBoundingClientRect() {
+				return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight }
+			}
 		})
 
 		// Use gsap's ticker method
@@ -57,6 +66,19 @@
 				scroll.to(frames[0].ref.offsetTop)
 			}
 		}, timeout)
+
+		frames.forEach(f => {
+			console.log(f.ref)
+			gsap.from(f.ref, {
+				scrollTrigger: {
+					end: '-50%',
+					scrub: 0.25,
+					trigger: f.ref,
+				},
+				scale: 0.6,
+				ease: 'none',
+			})
+		})
 	}
 
 	const destroy = () => {
@@ -77,7 +99,7 @@
 	</div>
 	<ul class="content" asscroll bind:this={content}>
 		<li class="intro"></li>
-		{#each frames as { source, component, ref }}
+		{#each frames as { source, component, ref }, i}
 			<li bind:this={ref}>
 				<Frame {source} bind:this={component} />
 			</li>

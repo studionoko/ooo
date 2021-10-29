@@ -4,6 +4,7 @@ export default class Scroll {
   constructor() {
     this.initialized = false
     this.scroll = undefined
+    this.el = undefined
     this.pos = 0
 
     this.init = this.init.bind(this)
@@ -21,6 +22,7 @@ export default class Scroll {
     this.scroll.enable({
       restore: false,
     })
+    this.el = this.scroll.containerElement
 
     this.initialized = true
   }
@@ -44,6 +46,10 @@ export default class Scroll {
 
   get position() {
     return Math.abs(this.scroll.controller.currentPos)
+  }
+
+  set position(pos) {
+    this.scroll.currentPos = pos
   }
 
   update() {
