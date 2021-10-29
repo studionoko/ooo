@@ -3,7 +3,7 @@ import Gradient from './Gradient'
 import Noise from './Noise'
 
 const meta = {
-  name: '001 red rain',
+  name: '001 red',
   date: '09. september 2021',
 }
 
