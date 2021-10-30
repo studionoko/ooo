@@ -1,11 +1,12 @@
 <script>
 	import { onMount, tick } from 'svelte'
 	import { getRandomColors } from '@nokonoko/colors'
-	import Frame from './components/Frame.svelte'
 	import { gsap } from 'gsap'
 	import { ScrollTrigger } from 'gsap/ScrollTrigger'
 	import Scroll from './scroll'
 	import { title, date } from './store'
+
+	import Frame from './components/Frame.svelte'
 
 	import F_2021_10_24 from './assets/2021-10-24/index.js'
 	import F_Test from './assets/test/index.js'
@@ -19,6 +20,7 @@
 	let introTimer
 	let isAnimatingTitle = true
 	let cols = getRandomColors()
+	let hasInitializedGsap = false
 
 	const frames = [
 		F_Circles,
@@ -33,10 +35,30 @@
 		F_2021_10_24,
 		F_2021_10_24,
 		F_Circles,
-	].map(f => ({ source: f, ref: null, component: null }))
+	].map(f => ({
+		source: f,
+		ref: null,
+		component: null,
+	}))
 
 	export const clear = () => {
 		console.log('clearin?')
+	}
+	export const prev = () => {
+		console.log(index)
+		scrollToIndex(index - 1)
+		index = index -1
+	}
+	export const next = () => {
+		console.log(index)
+		scrollToIndex(index)
+		index = index
+	}
+
+	const scrollToIndex = i => {
+		index = i
+		const { offsetTop, offsetHeight } = frames[i].ref
+		scroll.to(offsetTop)
 	}
 
 	const init = async () => {
@@ -68,16 +90,20 @@
 		})
 
 		// Use gsap's ticker method
-		gsap.ticker.add(scroll.update)
+		// ONLY DO THIS ONCE
+		if (!hasInitializedGsap) {
+			hasInitializedGsap = true
 
-		scroll.on('update', ScrollTrigger.update)
+			gsap.ticker.add(scroll.update)
+			gsap.ticker.fps(60)
+			scroll.on('update', ScrollTrigger.update)
+		}
 
 		// Scroll to first frame
 		const timeout = (first.name.length * 100) + (first.date.length * 100)
 		introTimer = setTimeout(() => {
 			if (scroll.position < 100) {
-				const { offsetTop, offsetHeight } = frames[0].ref
-				scroll.to(offsetTop)
+				scrollToIndex(0)
 			}
 		}, timeout)
 
@@ -93,7 +119,6 @@
 					trigger: f.ref,
 					onToggle: ({ isActive }) => {
 						if (isActive && index !== i) {
-							console.log('hei')
 							f.component.handleEnter()
 							index = i
 						}
@@ -104,6 +129,8 @@
 			})
 		}
 	}
+
+	$: { index; console.log(index) }
 
 	const destroy = () => {
 		scroll.destroy()
