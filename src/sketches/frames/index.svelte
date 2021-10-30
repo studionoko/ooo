@@ -24,6 +24,15 @@
 		F_Circles,
 		F_2021_10_24,
 		F_Test,
+		F_Circles,
+		F_2021_10_24,
+		F_Circles,
+		F_2021_10_24,
+		F_Circles,
+		F_Circles,
+		F_2021_10_24,
+		F_2021_10_24,
+		F_Circles,
 	].map(f => ({ source: f, ref: null, component: null }))
 
 	export const clear = () => {
@@ -36,7 +45,7 @@
 		$title = first.name
 		$date = first.date
 
-		setTimeout(() => isAnimatingTitle = false, 1200)
+		setTimeout(() => isAnimatingTitle = false, 1500)
 
 		// Wait a tick…
 		await tick()
@@ -63,8 +72,6 @@
 
 		scroll.on('update', ScrollTrigger.update)
 
-		console.log(scroll.scroll.scrollElements)
-
 		// Scroll to first frame
 		const timeout = (first.name.length * 100) + (first.date.length * 100)
 		introTimer = setTimeout(() => {
@@ -81,12 +88,13 @@
 			gsap.from(f.ref.querySelector('figure'), {
 				scrollTrigger: {
 					start: 'top bottom',
-					end: 'top 10%',
+					end: 'top 5%',
 					scrub: 0.25,
 					trigger: f.ref,
 					onToggle: ({ isActive }) => {
-						if (isActive) {
-							f.component.setTitle()
+						if (isActive && index !== i) {
+							console.log('hei')
+							f.component.handleEnter()
 							index = i
 						}
 					}

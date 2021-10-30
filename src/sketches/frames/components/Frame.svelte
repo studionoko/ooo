@@ -8,53 +8,57 @@
 
   let canvas
   let manager
-
   let rotation = range(-2, 3)
 
   /**
-   *  Handlers
+   *  External
    */
+  export const handleEnter = () => {
+    if (manager) manager.play()
+
+    setTitle()
+  }
+  export const handleLeave = () => {
+    if (manager) {
+      manager.pause()
+      manager.unload()
+
+      manager = undefined
+    }
+  }
+
   const onClick = () => {
     manager.render()
   }
 
-  export const handleEnter = () => {
-    // console.log('dis in view', canvas)
-  }
-
-  export const setTitle = () => {
+  const setTitle = () => {
     $title = source.meta.name
     $date = source.meta.date
+  }
+
+  const loadSketch = async () => {
+    const { settings, sketch } = source
+
+    const config = Object.assign({}, settings, {
+      canvas,
+      animate: false,
+      playing: false,
+      styleCanvas: false,
+    })
+
+    manager = await canvasSketch(sketch, config)
+    manager.stop()
   }
 
   /**
    *  Mount
    */
   onMount(() => {
-    async function loadSketch() {
-      const { settings, sketch } = source
-
-      const config = Object.assign({}, settings, {
-        canvas,
-        animate: false,
-        playing: false,
-        styleCanvas: false,
-      })
-
-      manager = await canvasSketch(sketch, config)
-    }
-
     loadSketch()
 
-    return () => {
-      if (manager) {
-        manager.pause()
-        manager.unload()
-
-        manager = undefined
-      }
-    }
+    return handleLeave
   })
+
 </script>
 
 <div class="frame">
