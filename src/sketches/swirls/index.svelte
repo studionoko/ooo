@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte'
 	import { getRandomColors } from '@nokonoko/colors'
 	import Vector from './components/Vector.svelte'
+  import { resetMenuItems } from '../../components/store'
 
 	let cols = getRandomColors(['blues', 'reds', 'oranges', 'greens', 'purples'])
 
@@ -114,6 +115,7 @@
 	}
 
 	onMount(() => {
+		resetMenuItems()
 		handleResize()
 
 		point = [

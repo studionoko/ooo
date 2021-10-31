@@ -5,6 +5,7 @@
 	import { ScrollTrigger } from 'gsap/ScrollTrigger'
 	import Scroll from './scroll'
 	import { title, date } from './store'
+  import { activeMenuItems } from '../../components/store'
 
 	import Frame from './components/Frame.svelte'
 
@@ -21,6 +22,7 @@
 	let isAnimatingTitle = true
 	let cols = getRandomColors()
 	let hasInitializedGsap = false
+	let winHeight;
 
 	const frames = [
 		F_Circles,
@@ -45,20 +47,12 @@
 		console.log('clearin?')
 	}
 	export const prev = () => {
-		console.log(index)
-		scrollToIndex(index - 1)
-		index = index -1
+		console.log('prev!')
+		// scroll.to(frames[index-1].ref.offsetTop)
 	}
 	export const next = () => {
-		console.log(index)
-		scrollToIndex(index)
-		index = index
-	}
-
-	const scrollToIndex = i => {
-		index = i
-		const { offsetTop, offsetHeight } = frames[i].ref
-		scroll.to(offsetTop)
+		console.log('next!')
+		// scroll.to(frames[index+1].ref.offsetTop)
 	}
 
 	const init = async () => {
@@ -68,6 +62,11 @@
 		$date = first.date
 
 		setTimeout(() => isAnimatingTitle = false, 1500)
+
+		$activeMenuItems = [true, false, true, true]
+
+		winHeight = window.innerHeight
+		// TODO: redefine on resize
 
 		// Wait a tick…
 		await tick()
@@ -103,7 +102,7 @@
 		const timeout = (first.name.length * 100) + (first.date.length * 100)
 		introTimer = setTimeout(() => {
 			if (scroll.position < 100) {
-				scrollToIndex(0)
+				scroll.to(frames[0].ref.offsetTop)
 			}
 		}, timeout)
 
@@ -237,7 +236,8 @@
 		height: 80vh;
 	}
 	.item {
-		padding: 4rem 0;
+		margin: 0;
+		padding: 0;
 	}
 
 	.content {

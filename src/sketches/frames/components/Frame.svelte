@@ -9,6 +9,7 @@
   let canvas
   let manager
   let rotation = range(-2, 3)
+  let isHorizontal = false
 
   /**
    *  External
@@ -39,6 +40,10 @@
   const loadSketch = async () => {
     const { settings, sketch } = source
 
+    if (settings.dimensions[0] > settings.dimensions[1]) {
+      isHorizontal = true
+    }
+
     const config = Object.assign({}, settings, {
       canvas,
       animate: false,
@@ -61,7 +66,7 @@
 
 </script>
 
-<div class="frame">
+<div class="frame" class:horizontal={isHorizontal}>
   <div>
     <span class="frame-fade" />
     <figure
@@ -76,8 +81,8 @@
 <style lang="scss">
   .frame {
     width: 100%;
-    height: auto;
-    margin: 8rem 0;
+    height: 100vh;
+    margin: 0;
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -118,7 +123,15 @@
 
     @media screen and (min-width: 600px) {
       figure {
-        width: 30rem;
+        width: 100%;
+        max-width: 30rem;
+      }
+
+      &.horizontal {
+        figure {
+          width: 100%;
+          max-width: 50rem;
+        }
       }
     }
   }

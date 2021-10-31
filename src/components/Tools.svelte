@@ -2,6 +2,7 @@
   import { onMount } from 'svelte'
   import { gsap } from 'gsap'
   import { createEventDispatcher } from 'svelte'
+  import { activeMenuItems } from './store'
 
   export let current
 
@@ -60,13 +61,13 @@
         case 'up':
           tl.fromTo([a.ref, a.ghost],
             { y: '0%' },
-            { y: '-102%', duration: 0.5, ease: 'power1.inOut' },
+            { y: '-102%', duration: 0.5, ease: 'power2.inOut' },
           )
           break
         case 'down':
           tl.fromTo([a.ref, a.ghost],
             { y: '-102%' },
-            { y: '0%', duration: 0.5, ease: 'power1.inOut' },
+            { y: '0%', duration: 0.5, ease: 'power2.inOut' },
           )
           break
       }
@@ -86,16 +87,16 @@
 
 <ul class="tools">
 
-  {#each actions as a}
-    <li>
+  {#each actions as a, i}
+    <li class:hide={!$activeMenuItems[i]}>
       <button
+        on:click|stopPropagation={a.action}
         on:mouseenter={() => animate(a)}
         class={`${a.ghost} ${a.animation}`}
         class:ghost={a.ghost}
       >
         <svg
           bind:this={a.ref}
-          on:click|stopPropagation={a.action}
           width="500" height="500" viewBox="0 0 500 500" fill="none"
         >
           {@html a.icon}
@@ -132,6 +133,9 @@
       margin: 0;
       margin-right: 0.5rem;
       position: relative;
+      &.hide {
+        display: none;
+      }
     }
 
     svg {

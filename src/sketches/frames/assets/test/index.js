@@ -8,7 +8,7 @@ const meta = {
 }
 
 const settings = {
-  dimensions: [ 600, 900 ],
+  dimensions: [ 900, 600 ],
   loop: true,
   fps: 1,
   playbackRate: 'fixed',

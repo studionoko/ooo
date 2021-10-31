@@ -3,6 +3,7 @@
 	import { getRandomColorsFromCategory } from '@nokonoko/colors'
 	import { map } from '@nokonoko/tools'
 	import Circle from './components/Circle.svelte'
+  import { resetMenuItems } from '../../components/store'
 
 	const cols = getRandomColorsFromCategory('galaxy')
 	const limit = 500
@@ -114,6 +115,7 @@
 	}
 
 	onMount(() => {
+		resetMenuItems()
 		handleResize()
 
 		setup()

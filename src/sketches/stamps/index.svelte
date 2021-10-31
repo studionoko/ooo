@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte'
 	import { getRandomColors } from '@nokonoko/colors'
 	import Uhh from './components/Uhh.svelte'
+  import { resetMenuItems } from '../../components/store'
 
 	let cols = getRandomColors()
 
@@ -76,6 +77,7 @@
 	}
 
 	onMount(() => {
+		resetMenuItems()
 		restartTimer()
 		handleResize()
 
