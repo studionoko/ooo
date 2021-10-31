@@ -55,6 +55,8 @@
     tl: null,
   }))
 
+  let slidersReversed = false
+
   const setAnimations = () => {
     actions.forEach(a => {
       const tl = gsap.timeline({ paused: true })
@@ -82,10 +84,8 @@
           break
         case 'sliders':
           const [p1, p2] = a.ref.querySelectorAll('.p')
-          tl.to(p1, { x: '-113%', duration: 0.3, ease: 'power3.inOut' })
-          tl.to(p1, { x: '0', duration: 0.3, ease: 'power3.inOut' }, '+=0.1')
-          tl.to(p2, { x: '113%', duration: 0.3, ease: 'power3.inOut' }, 0.1)
-          tl.to(p2, { x: '0', duration: 0.4, ease: 'power3.inOut' }, 0.4)
+          tl.to(p1, { x: '-115%', duration: 0.5, ease: 'expo.inOut' })
+          tl.to(p2, { x: '115%', duration: 0.5, ease: 'expo.inOut' }, 0)
           break
       }
 
@@ -94,7 +94,18 @@
   }
 
   const animate = a => {
-    a.tl.play(0)
+    if (a.animation === 'sliders') {
+      if (slidersReversed) {
+        a.tl.reverse()
+        slidersReversed = false
+      }
+      else {
+        a.tl.play(0)
+        slidersReversed = true
+      }
+    } else {
+      a.tl.play(0)
+    }
   }
 
   onMount(() => {

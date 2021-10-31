@@ -43,6 +43,9 @@
 		component: null,
 	}))
 
+	export const refresh = () => {
+		console.log('refresh')
+	}
 	export const clear = () => {
 		console.log('clearin?')
 	}

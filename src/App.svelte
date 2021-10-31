@@ -53,7 +53,7 @@
 
   <Tools
     {current}
-    on:refresh={refresh}
+    on:refresh={current.refresh || refresh}
     on:clear={current.clear}
     on:prevFrame={current.prev}
     on:nextFrame={current.next}
