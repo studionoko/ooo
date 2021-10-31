@@ -63,7 +63,7 @@
 
 		setTimeout(() => isAnimatingTitle = false, 1500)
 
-		$activeMenuItems = [true, false, true, true]
+		$activeMenuItems = [true, false, true, true, true]
 
 		winHeight = window.innerHeight
 		// TODO: redefine on resize

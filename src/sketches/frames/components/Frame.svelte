@@ -3,6 +3,7 @@
   import canvasSketch from 'canvas-sketch'
   import { range } from 'canvas-sketch-util/random'
   import { title, date } from '../store'
+  import Slider from './Slider.svelte'
 
   export let source
 
@@ -67,7 +68,8 @@
 </script>
 
 <div class="frame" class:horizontal={isHorizontal}>
-  <div>
+
+  <div class="frame-wrapper">
     <span class="frame-fade" />
     <figure
       on:click={onClick}
@@ -76,6 +78,11 @@
       <canvas bind:this={canvas} />
     </figure>
   </div>
+
+  <div class="frame-inputs">
+    <Slider />
+  </div>
+
 </div>
 
 <style lang="scss">
@@ -102,7 +109,8 @@
       display: block;
       background: #fff;
     }
-    div {
+
+    &-wrapper {
       width: 100%;
       height: auto;
       position: relative;
@@ -119,6 +127,16 @@
       @media (prefers-color-scheme: dark) {
         background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1) 25% 75%, rgba(0,0,0,0));
       }
+    }
+
+    &-inputs {
+      position: absolute;
+      display: block;
+      top: 60%;
+      left: 20%;
+      background: #f30;
+      width: auto;
+      height: auto;
     }
 
     @media screen and (min-width: 600px) {
