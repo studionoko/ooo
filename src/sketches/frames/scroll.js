@@ -19,6 +19,7 @@ export default class Scroll {
   init() {
     this.scroll = new ASScroll({
       disableRaf: true,
+      touchScrollType: 'none',
     })
     this.scroll.enable({
       restore: false,

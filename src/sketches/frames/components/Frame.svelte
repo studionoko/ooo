@@ -137,6 +137,7 @@
       background: #f30;
       width: auto;
       height: auto;
+      transform-origin: 50% 50% !important;
     }
 
     @media screen and (min-width: 600px) {

@@ -98,8 +98,7 @@
       if (slidersReversed) {
         a.tl.reverse()
         slidersReversed = false
-      }
-      else {
+      } else {
         a.tl.play(0)
         slidersReversed = true
       }

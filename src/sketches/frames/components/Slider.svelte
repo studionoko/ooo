@@ -38,8 +38,8 @@
     actualMax = track.offsetWidth
     actualVal = val / max * actualMax
 
-    console.table({val, min, max})
-    console.table({actualVal, actualMin, actualMax})
+    // console.table({val, min, max})
+    // console.table({actualVal, actualMin, actualMax})
   })
 </script>
 

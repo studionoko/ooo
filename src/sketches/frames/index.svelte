@@ -129,6 +129,20 @@
 				scale: 0.6,
 				ease: 'circ.out',
 			})
+
+			const inputs = f.ref.querySelector('.frame-inputs')
+			gsap.fromTo(inputs, {
+				scrollTrigger: {
+					start: 'top bottom',
+					trigger: inputs,
+					once: false,
+				},
+				opacity: 0,
+			}, {
+				opacity: 1,
+				duration: 1,
+				ease: 'power2.inOut',
+			})
 		}
 	}
 
@@ -137,9 +151,12 @@
 	const destroy = () => {
 		scroll.destroy()
 		clearTimeout(introTimer)
+		document.querySelector('body').classList.remove('frames')
 	}
 
 	onMount(() => {
+		document.querySelector('body').classList.add('frames')
+
 		init()
 		return destroy
 	})

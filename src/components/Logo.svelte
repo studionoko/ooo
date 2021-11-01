@@ -19,3 +19,14 @@
   </Link>
 </div>
 
+<style lang="scss">
+  .logo svg {
+    &:nth-child(2) { display: none; }
+    &:nth-child(3) { display: none; }
+
+    @media screen and (min-width: 600px) {
+      &:nth-child(2) { display: block; }
+      &:nth-child(3) { display: block; }
+    }
+  }
+</style>
