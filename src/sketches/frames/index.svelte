@@ -44,10 +44,9 @@
 	}))
 
 	export const refresh = () => {
-		console.log('refresh')
-	}
-	export const clear = () => {
-		console.log('clearin?')
+		frames.forEach(f => {
+			f.component.rerender()
+		})
 	}
 	export const prev = () => {
 		const pos = Math.abs(scroll.scroll.targetPos)
@@ -150,14 +149,20 @@
 
 	$: { index; console.log(index) }
 
+	const onResize = () => {
+		winHeight = window.innerHeight
+	}
+
 	const destroy = () => {
 		scroll.destroy()
 		clearTimeout(introTimer)
 		document.querySelector('body').classList.remove('frames')
+		document.removeEventListener('resize', onResize)
 	}
 
 	onMount(() => {
 		document.querySelector('body').classList.add('frames')
+		document.addEventListener('resize', onResize)
 
 		init()
 		return destroy

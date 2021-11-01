@@ -29,6 +29,10 @@
     }
   }
 
+  export const rerender = () => {
+    manager.render()
+  }
+
   const onClick = () => {
     manager.render()
   }
