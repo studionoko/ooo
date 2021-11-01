@@ -57,6 +57,7 @@
     on:clear={current.clear}
     on:prevFrame={current.prev}
     on:nextFrame={current.next}
+    on:toggleInputs={current.toggleInputs}
   />
 
   <Logo />

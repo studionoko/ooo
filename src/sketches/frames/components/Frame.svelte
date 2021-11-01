@@ -11,6 +11,7 @@
   let manager
   let rotation = range(-2, 3)
   let isHorizontal = false
+  let showInputs = true
 
   /**
    *  External
@@ -27,6 +28,10 @@
 
       manager = undefined
     }
+  }
+
+  export const toggleInputs = () => {
+    showInputs = !showInputs
   }
 
   export const rerender = () => {
@@ -84,7 +89,9 @@
   </div>
 
   <div class="frame-inputs">
-    <Slider />
+    {#if showInputs}
+      <Slider />
+    {/if}
   </div>
 
 </div>

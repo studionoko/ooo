@@ -23,6 +23,7 @@
 	let cols = getRandomColors()
 	let hasInitializedGsap = false
 	let winHeight;
+	let frameOffset;
 
 	const frames = [
 		F_Circles,
@@ -50,13 +51,18 @@
 	}
 	export const prev = () => {
 		const pos = Math.abs(scroll.scroll.targetPos)
-		const current = pos % winHeight
+		const current = (pos + frameOffset) % winHeight
 		scroll.to(pos - (winHeight + current))
 	}
 	export const next = () => {
 		const pos = Math.abs(scroll.scroll.targetPos)
-		const current = pos % winHeight
+		const current = (pos + frameOffset) % winHeight
 		scroll.to(pos + (winHeight - current))
+	}
+	export const toggleInputs = () => {
+		frames.forEach(f => {
+			f.component.toggleInputs()
+		})
 	}
 
 	const init = async () => {
@@ -69,8 +75,7 @@
 
 		$activeMenuItems = [true, false, true, true, true]
 
-		winHeight = window.innerHeight
-		// TODO: redefine on resize
+		onResize()
 
 		// Wait a tick…
 		await tick()
@@ -151,6 +156,7 @@
 
 	const onResize = () => {
 		winHeight = window.innerHeight
+		frameOffset = winHeight * 0.2
 	}
 
 	const destroy = () => {
@@ -264,7 +270,7 @@
 
 	.intro {
 		width: 100%;
-		height: 100vh;
+		height: 80vh;
 	}
 	.item {
 		margin: 0;
