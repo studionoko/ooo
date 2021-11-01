@@ -55,6 +55,9 @@
 	}
 	export const next = () => {
 		console.log('next!')
+		const current = scroll.pos % winHeight
+		console.log(scroll.pos, winHeight, current)
+		scroll.to(scroll.pos - current)
 		// scroll.to(frames[index+1].ref.offsetTop)
 	}
 
@@ -196,11 +199,15 @@
 		align-items: center;
 		align-content: center;
 		justify-content: center;
-		position: absolute;
+		position: fixed;
 		top: -1rem;
 		left: 0;
 		width: 100%;
 		height: 100%;
+
+		@media screen and (min-width: 600px) {
+			position: absolute;
+		}
 
 		h2, h4 {
 			display: inline-block;
