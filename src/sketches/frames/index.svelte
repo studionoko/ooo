@@ -50,15 +50,14 @@
 		console.log('clearin?')
 	}
 	export const prev = () => {
-		console.log('prev!')
-		// scroll.to(frames[index-1].ref.offsetTop)
+		const pos = Math.abs(scroll.scroll.targetPos)
+		const current = pos % winHeight
+		scroll.to(pos - (winHeight + current))
 	}
 	export const next = () => {
-		console.log('next!')
-		const current = scroll.pos % winHeight
-		console.log(scroll.pos, winHeight, current)
-		scroll.to(scroll.pos - current)
-		// scroll.to(frames[index+1].ref.offsetTop)
+		const pos = Math.abs(scroll.scroll.targetPos)
+		const current = pos % winHeight
+		scroll.to(pos + (winHeight - current))
 	}
 
 	const init = async () => {
@@ -260,7 +259,7 @@
 
 	.intro {
 		width: 100%;
-		height: 80vh;
+		height: 100vh;
 	}
 	.item {
 		margin: 0;
