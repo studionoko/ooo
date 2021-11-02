@@ -30,14 +30,6 @@
 		F_2021_10_24,
 		F_Test,
 		F_Circles,
-		F_2021_10_24,
-		F_Circles,
-		F_2021_10_24,
-		F_Circles,
-		F_Circles,
-		F_2021_10_24,
-		F_2021_10_24,
-		F_Circles,
 	].map(f => ({
 		source: f,
 		ref: null,
@@ -136,19 +128,18 @@
 				ease: 'circ.out',
 			})
 
-			const inputs = f.ref.querySelector('.frame-inputs')
-			gsap.fromTo(inputs, {
+			const inputs = f.ref.querySelector('.frame-inputs > div')
+			gsap.from(inputs, {
 				scrollTrigger: {
 					start: 'top bottom',
-					trigger: inputs,
 					once: false,
+					trigger: inputs,
 				},
-				opacity: 0,
-			}, {
-				opacity: 1,
 				duration: 1,
-				ease: 'power2.inOut',
-			})
+				opacity: 0,
+				y: '50%',
+				ease: 'power2.out',
+			}, 0.5)
 		}
 	}
 

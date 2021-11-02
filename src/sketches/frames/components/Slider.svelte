@@ -24,6 +24,9 @@
   const onMousemove = ev => {
     if (!active) return
 
+    let pos = ev.touches ? ev.touches[0].pageX : ev.pageX
+    const size = track.offsetWidth
+    console.log(pos / size)
     // actualVal += ev.pageX
   }
   const onMouseup = () => {
@@ -43,38 +46,49 @@
   })
 </script>
 
-<div class="slider">
-  <span
-    class="track"
-    bind:this={track}
-  />
-  <span
-    class="wheel"
-    style={wheelStyle}
-    on:mousedown={onMousedown}
-    on:mousemove={onMousemove}
-    on:mouseup={onMouseup}
-  />
+<div
+  class="slider"
+  on:mousemove={onMousemove}
+>
+  <div class="slider-wrapper">
+    <span
+      class="track"
+      bind:this={track}
+    />
+    <span
+      class="wheel"
+      style={wheelStyle}
+      on:mousedown={onMousedown}
+      on:mouseup={onMouseup}
+    />
+  </div>
 </div>
 
 <style lang="scss">
   .slider {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 16rem;
-    height: 4rem;
-    background: transparent;
-    border: solid 3px white;
-    color: black;
+    display: block;
     position: absolute;
     mix-blend-mode: exclusion;
-    transition: transform 0.5s;
     user-select: none;
-    transform: rotate(-2deg);
+
+
+    &-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 16rem;
+      height: 4rem;
+      background: transparent;
+      border: solid 3px white;
+      color: black;
+      transform: rotate(-2deg);
+      transition: transform 0.5s;
+    }
 
     &:hover {
-      transform: translateY(-2px);
+      .slider-wrapper {
+        transform: translateY(-2px);
+      }
 
       .wheel {
         height: 1.5rem;

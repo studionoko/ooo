@@ -2,6 +2,7 @@
   import { onMount } from 'svelte'
   import canvasSketch from 'canvas-sketch'
   import { range } from 'canvas-sketch-util/random'
+  import { gsap } from 'gsap'
   import { title, date } from '../store'
   import Slider from './Slider.svelte'
 
@@ -11,6 +12,8 @@
   let manager
   let rotation = range(-2, 3)
   let isHorizontal = false
+  let inputs
+  let inputsSliders
   let showInputs = true
 
   /**
@@ -32,6 +35,25 @@
 
   export const toggleInputs = () => {
     showInputs = !showInputs
+
+    if (showInputs) {
+      gsap.fromTo(inputsSliders, {
+        opacity: 0,
+        y: '30%',
+      }, {
+        opacity: 1,
+        y: '0%',
+        duration: 0.4,
+        ease: 'power1.out',
+      })
+    } else {
+      gsap.to(inputsSliders, {
+        opacity: 0,
+        y: '30%',
+        ease: 'power1.in',
+        duration: 0.4,
+      })
+    }
   }
 
   export const rerender = () => {
@@ -71,6 +93,8 @@
   onMount(() => {
     loadSketch()
 
+    inputsSliders = inputs.querySelectorAll('.slider')
+
     return handleLeave
   })
 
@@ -88,10 +112,8 @@
     </figure>
   </div>
 
-  <div class="frame-inputs">
-    {#if showInputs}
-      <Slider />
-    {/if}
+  <div class="frame-inputs" bind:this={inputs}>
+    <Slider />
   </div>
 
 </div>
