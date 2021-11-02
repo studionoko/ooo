@@ -246,6 +246,10 @@
 				}
 			}
 		}
+
+	  @media (prefers-color-scheme: light) {
+			color: #000;
+	  }
 	}
 
 	.frames {
@@ -257,6 +261,10 @@
 		width: 100%;
 		height: auto;
 		min-height: 100vh;
+
+    @media (prefers-color-scheme: light) {
+    	background: #fff;
+    }
 	}
 
 	.intro {

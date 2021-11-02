@@ -28,5 +28,11 @@
       &:nth-child(2) { display: block; }
       &:nth-child(3) { display: block; }
     }
+
+    body.frames & {
+      @media (prefers-color-scheme: light) {
+        color: #fff;
+      }
+    }
   }
 </style>
