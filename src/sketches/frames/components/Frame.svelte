@@ -127,7 +127,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 0 2rem;
+    padding: 0 0;
     box-sizing: border-box;
     position: relative;
 
@@ -147,6 +147,7 @@
       width: 100%;
       height: auto;
       position: relative;
+      padding: 0 2rem;
     }
 
     &-fade {
