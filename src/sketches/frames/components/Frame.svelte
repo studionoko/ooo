@@ -10,7 +10,6 @@
 
   let canvas
   let manager
-  let rotation = range(-2, 3)
   let isHorizontal = false
   let inputs
   let inputsSliders
@@ -104,10 +103,7 @@
 
   <div class="frame-wrapper">
     <span class="frame-fade" />
-    <figure
-      on:click={onClick}
-      style={`transform: rotate(${rotation}deg);`}
-    >
+    <figure on:click={onClick}>
       <canvas bind:this={canvas} />
     </figure>
   </div>

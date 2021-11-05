@@ -3,6 +3,7 @@
 	import { getRandomColors } from '@nokonoko/colors'
 	import { gsap } from 'gsap'
 	import { ScrollTrigger } from 'gsap/ScrollTrigger'
+  import { range } from 'canvas-sketch-util/random'
 	import Scroll from './scroll'
 	import { title, date } from './store'
   import { activeMenuItems } from '../../components/store'
@@ -63,7 +64,7 @@
 		$title = first.name
 		$date = first.date
 
-		setTimeout(() => isAnimatingTitle = false, 1500)
+		setTimeout(() => isAnimatingTitle = false, 2100)
 
 		$activeMenuItems = [true, false, true, true, true]
 
@@ -105,11 +106,12 @@
 			if (scroll.position < 100) {
 				scroll.to(frames[0].ref.offsetTop)
 			}
-		}, timeout)
+		}, 500 + timeout)
 
 		for (let i = 0; i < frames.length; i++) {
 			const f = frames[i]
 			const next = i < frames.length-1 ? frames[i+1] : false
+			const rotation = range(-12, 13)
 
 			gsap.from(f.ref.querySelector('figure'), {
 				scrollTrigger: {
@@ -125,6 +127,7 @@
 					}
 				},
 				scale: 0.6,
+				rotation: `${rotation}deg`,
 				ease: 'circ.out',
 			})
 
@@ -236,13 +239,13 @@
 		&.animating {
 			h2, h4 {
 				span {
-					animation: up 1s 0.1s backwards;
-			  	&:nth-child(1) { animation-delay: 0.15s; }
-			  	&:nth-child(2) { animation-delay: 0.20s; }
-			  	&:nth-child(3) { animation-delay: 0.25s; }
-			  	&:nth-child(4) { animation-delay: 0.30s; }
-			  	&:nth-child(5) { animation-delay: 0.35s; }
-			  	&:nth-child(6) { animation-delay: 0.40s; }
+					animation: up 1s 0.7s backwards;
+			  	&:nth-child(1) { animation-delay: 0.75s; }
+			  	&:nth-child(2) { animation-delay: 0.80s; }
+			  	&:nth-child(3) { animation-delay: 0.85s; }
+			  	&:nth-child(4) { animation-delay: 0.90s; }
+			  	&:nth-child(5) { animation-delay: 0.95s; }
+			  	&:nth-child(6) { animation-delay: 1.00s; }
 				}
 			}
 		}

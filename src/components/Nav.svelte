@@ -41,6 +41,7 @@
     margin: 0;
     color: inherit;
     text-decoration: none;
+    font-variation-settings: 'wght' 250;
     transform: translateX(1rem);
     transition: 0.1s padding;
     -webkit-tap-highlight-color: transparent;
