@@ -38,7 +38,7 @@
       width: 2.5rem;
       height: 2.5rem;
       margin-left: 0.35rem;
-      color: black;
+      color: white;
 
       circle,
       path {

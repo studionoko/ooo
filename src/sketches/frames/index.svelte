@@ -179,6 +179,12 @@
 				<Frame {source} bind:this={component} />
 			</li>
 		{/each}
+		<li class="outro">
+			<div class="outro-content">
+				<h2>More soon</h2>
+				<h3>(Maybe)</h3>
+			</div>
+		</li>
 	</ul>
 </section>
 
@@ -192,6 +198,28 @@
 	@keyframes up {
 		from {
 			transform: translateY(100%);
+		}
+	}
+
+	h2, h3, h4 {
+		display: inline-block;
+		margin: 0;
+	  line-height: 1.05em;
+	  text-align: center;
+		overflow: hidden;
+		font-family: 'Inter', sans-serif;
+	  font-size: 1.8rem;
+	  font-variation-settings: 'wght' 300, 'slnt' 0;
+	  text-transform: uppercase;
+	  letter-spacing: -0.02em;
+
+		span {
+	  	display: inline-block;
+			position: relative;
+	  }
+
+		@media screen and (min-width: 768px) {
+	    font-size: 2.75rem;
 		}
 	}
 
@@ -209,29 +237,6 @@
 
 		@media screen and (min-width: 600px) {
 			position: absolute;
-		}
-
-		h2, h4 {
-			display: inline-block;
-			margin: 0;
-		  line-height: 1.05em;
-		  text-align: center;
-			overflow: hidden;
-		  span {
-		  	display: inline-block;
-				position: relative;
-		  }
-		}
-		h2 {
-			font-family: 'Inter', sans-serif;
-		  font-size: 1.8rem;
-		  font-variation-settings: 'wght' 300, 'slnt' 0;
-		  text-transform: uppercase;
-		  letter-spacing: -0.02em;
-		  padding-top: 0.4em;
-			@media screen and (min-width: 768px) {
-		    font-size: 2.75rem;
-			}
 		}
 
 		&.animating {
@@ -268,13 +273,49 @@
     }
 	}
 
-	.intro {
+	.intro,
+	.outro {
 		width: 100%;
 		height: 80vh;
 	}
+
+	.outro {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		align-items: center;
+		margin-top: -30vh;
+		height: 120vh;
+		background: black;
+		color: white;
+		position: relative;
+		z-index: 1;
+
+		&-content {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
+			height: 100vh;
+		}
+
+		@media screen and (min-width: 1100px) {
+			height: 150vh;
+			margin-top: -50vh;
+		}
+
+		@media (prefers-color-scheme: light) {
+			background: white;
+			color: black;
+		}
+	}
+
 	.item {
 		margin: 0;
 		padding: 0;
+		position: relative;
+		z-index: 2;
 	}
 
 	.content {
