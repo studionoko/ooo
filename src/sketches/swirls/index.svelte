@@ -1,7 +1,8 @@
 <script>
 	import { onMount } from 'svelte'
-	import { getRandomColors } from '@kvasi/colors'
+	import { getRandomColors } from '@nokonoko/colors'
 	import Vector from './components/Vector.svelte'
+  import { resetMenuItems } from '../../components/store'
 
 	let cols = getRandomColors(['blues', 'reds', 'oranges', 'greens', 'purples'])
 
@@ -114,6 +115,7 @@
 	}
 
 	onMount(() => {
+		resetMenuItems()
 		handleResize()
 
 		point = [
@@ -136,11 +138,13 @@
 	})
 </script>
 
-<svg width={viewport.width} height={viewport.height} viewBox={`0 0 ${viewport.width} ${viewport.height}`} fill="none">
-	{#each paths as p}
-		<Vector color={p.color || 'white'} to={p.to} from={p.from}/>
-	{/each}
-</svg>
+<div class="wrapper">
+	<svg width={viewport.width} height={viewport.height} viewBox={`0 0 ${viewport.width} ${viewport.height}`} fill="none">
+		{#each paths as p}
+			<Vector color={p.color || 'white'} to={p.to} from={p.from}/>
+		{/each}
+	</svg>
+</div>
 
 <style>
 svg {
@@ -154,10 +158,5 @@ svg {
 	-webkit-tap-highlight-color: none;
 	overscroll-behavior: contain;
 	overflow: hidden;
-}
-@media screen and (min-width: 768px) {
-	:global(body) {
-		cursor: pointer;
-	}
 }
 </style>

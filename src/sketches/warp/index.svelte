@@ -1,8 +1,9 @@
 <script>
 	import { onMount } from 'svelte'
-	import { getRandomColorsFromCategory } from '@kvasi/colors'
-	import { map } from '@kvasi/tools'
+	import { getRandomColorsFromCategory } from '@nokonoko/colors'
+	import { map } from '@nokonoko/tools'
 	import Circle from './components/Circle.svelte'
+  import { resetMenuItems } from '../../components/store'
 
 	const cols = getRandomColorsFromCategory('galaxy')
 	const limit = 500
@@ -114,6 +115,7 @@
 	}
 
 	onMount(() => {
+		resetMenuItems()
 		handleResize()
 
 		setup()
@@ -137,28 +139,25 @@
 	})
 </script>
 
-<svg width={viewport.width} height={viewport.height} viewBox={`0 0 ${viewport.width} ${viewport.height}`} fill="none">
-	{#each circles as { x, y, color }}
-		<Circle pos={[x, y]} color={color} size={25}/>
-	{/each}
-</svg>
+<div class="wrapper">
+	<svg width={viewport.width} height={viewport.height} viewBox={`0 0 ${viewport.width} ${viewport.height}`} fill="none">
+		{#each circles as { x, y, color }}
+			<Circle pos={[x, y]} color={color} size={25}/>
+		{/each}
+	</svg>
+</div>
 
 <style lang="scss">
-svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-	width: 100%;
-	height: 100%;
-}
-:global(body) {
-	-webkit-tap-highlight-color: none;
-	overscroll-behavior: contain;
-	overflow: hidden;
-}
-@media screen and (min-width: 768px) {
-	:global(body) {
-		cursor: pointer;
+	svg {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+		width: 100%;
+		height: 100%;
 	}
-}
+	:global(body) {
+		-webkit-tap-highlight-color: none;
+		overscroll-behavior: contain;
+		overflow: hidden;
+	}
 </style>

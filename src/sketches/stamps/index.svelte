@@ -1,7 +1,8 @@
 <script>
 	import { onMount } from 'svelte'
-	import { getRandomColors } from '@kvasi/colors'
+	import { getRandomColors } from '@nokonoko/colors'
 	import Uhh from './components/Uhh.svelte'
+  import { resetMenuItems } from '../../components/store'
 
 	let cols = getRandomColors()
 
@@ -76,6 +77,7 @@
 	}
 
 	onMount(() => {
+		resetMenuItems()
 		restartTimer()
 		handleResize()
 
@@ -93,21 +95,18 @@
 	})
 </script>
 
-{#each uhhs as u}
-	{#if u.top !== 0}
-		<Uhh color={u.color} top={u.top} left={u.left}/>
-	{/if}
-{/each}
+<div class="wrapper">
+	{#each uhhs as u}
+		{#if u.top !== 0}
+			<Uhh color={u.color} top={u.top} left={u.left}/>
+		{/if}
+	{/each}
+</div>
 
 <style>
-:global(body) {
-	-webkit-tap-highlight-color: none;
-	overscroll-behavior: contain;
-	overflow: hidden;
-}
-@media screen and (min-width: 768px) {
 	:global(body) {
-		cursor: pointer;
+		-webkit-tap-highlight-color: none;
+		overscroll-behavior: contain;
+		overflow: hidden;
 	}
-}
 </style>
