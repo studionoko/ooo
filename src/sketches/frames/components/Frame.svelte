@@ -13,7 +13,7 @@
   let isHorizontal = false
   let inputs
   let inputsSliders
-  let showInputs = true
+  let showInputs = false
 
   /**
    *  External
@@ -109,7 +109,9 @@
   </div>
 
   <div class="frame-inputs" bind:this={inputs}>
-    <Slider />
+    {#if showInputs}
+      <Slider />
+    {/if}
   </div>
 
 </div>

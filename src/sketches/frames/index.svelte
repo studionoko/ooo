@@ -29,8 +29,6 @@
 	const frames = [
 		F_Circles,
 		F_2021_10_24,
-		F_Test,
-		F_Circles,
 	].map(f => ({
 		source: f,
 		ref: null,
@@ -66,7 +64,7 @@
 
 		setTimeout(() => isAnimatingTitle = false, 2100)
 
-		$activeMenuItems = [true, false, true, true, true]
+		$activeMenuItems = [true, false, true, true, false]
 
 		onResize()
 
