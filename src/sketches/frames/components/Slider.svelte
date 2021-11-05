@@ -6,12 +6,12 @@
   export let min = 0
   export let max = 12
 
-  let actualVal,
-      actualMin,
-      actualMax
+  let actualVal
+  let actualMin
+  let actualMax
 
-  let track,
-      wheel
+  let track
+  let wheel
 
   let active = false
 
@@ -23,18 +23,12 @@
   }
   const onMousemove = ev => {
     if (!active) return
-
-    let pos = ev.touches ? ev.touches[0].pageX : ev.pageX
-    const size = track.offsetWidth
-    console.log(pos / size)
-    // actualVal += ev.pageX
   }
   const onMouseup = () => {
     active = false
   }
 
-  $: pos = clamp(val, min, max) / max * 100
-  $: wheelStyle = `left: ${pos}%;`
+  $: wheelStyle = `left: ${actualVal}px;`
 
   onMount(() => {
     actualMin = 0
@@ -48,19 +42,20 @@
 
 <div
   class="slider"
-  on:mousemove={onMousemove}
 >
   <div class="slider-wrapper">
     <span
       class="track"
       bind:this={track}
-    />
-    <span
-      class="wheel"
-      style={wheelStyle}
-      on:mousedown={onMousedown}
-      on:mouseup={onMouseup}
-    />
+    >
+      <span
+        class="wheel"
+        style={wheelStyle}
+        on:mousemove={onMousemove}
+        on:mousedown={onMousedown}
+        on:mouseup={onMouseup}
+      />
+    </span>
   </div>
 </div>
 
@@ -76,10 +71,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 16rem;
-      height: 4rem;
+      width: 12rem;
+      height: 3rem;
       background: transparent;
-      border: solid 3px white;
+      border: solid 2px white;
       color: black;
       transform: rotate(-2deg);
       transition: transform 0.5s;
@@ -91,8 +86,23 @@
       }
 
       .wheel {
-        height: 1.5rem;
-        width: 1.5rem;
+        height: 1.2rem;
+        width: 1.2rem;
+      }
+    }
+
+    @media screen and (min-width: 600px) {
+      &-wrapper {
+        border-width: 3px;
+        width: 16rem;
+        height: 4rem;
+      }
+
+      &:hover {
+        .wheel {
+          height: 1.5rem;
+          width: 1.5rem;
+        }
       }
     }
   }
@@ -101,29 +111,48 @@
     display: block;
     flex: 0 1 80%;
     background: white;
-    height: 3px;
+    height: 2px;
+    position: relative;
+
+    @media screen and (min-width: 600px) {
+      height: 3px;
+      flex-basis: 80%;
+    }
   }
 
   .slider .wheel {
     display: block;
     position: absolute;
     top: 50%;
-    left: 30%;
     transform: translate(-50%, -50%);
     background: white;
     border-radius: 50%;
-    height: 1.2rem;
-    width: 1.2rem;
+    height: 1rem;
+    width: 1rem;
     transition: width 0.2s, height 0.2s;
 
     &:hover {
-      height: 1.8rem;
-      width: 1.8rem;
-    }
-    &:active {
       height: 1.4rem;
       width: 1.4rem;
+    }
+    &:active {
+      height: 1.2rem;
+      width: 1.2rem;
       transition-duration: 0.1s;
+    }
+
+    @media screen and (min-width: 600px) {
+      height: 1.2rem;
+      width: 1.2rem;
+
+      &:hover {
+        height: 1.8rem;
+        width: 1.8rem;
+      }
+      &:active {
+        height: 1.4rem;
+        width: 1.4rem;
+      }
     }
   }
 </style>

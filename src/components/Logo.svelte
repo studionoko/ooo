@@ -20,19 +20,58 @@
 </div>
 
 <style lang="scss">
-  .logo svg {
-    &:nth-child(2) { display: none; }
-    &:nth-child(3) { display: none; }
+  .logo {
+    bottom: 1rem;
+    right: 1rem;
+    position: fixed;
+    mix-blend-mode: exclusion;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
 
-    @media screen and (min-width: 600px) {
-      &:nth-child(2) { display: block; }
-      &:nth-child(3) { display: block; }
+    svg {
+      display: inline-block;
+      float: left;
+      width: 2.5rem;
+      height: 2.5rem;
+      margin-left: 0.35rem;
+      color: black;
+
+      circle,
+      path {
+        stroke: currentColor;
+      }
+
+      &:nth-child(2) { display: none; }
+      &:nth-child(3) { display: none; }
+
+      @media screen and (min-width: 600px) {
+        &:nth-child(2) { display: block; }
+        &:nth-child(3) { display: block; }
+      }
     }
 
-    body.frames & {
-      @media (prefers-color-scheme: light) {
-        color: #fff;
+
+    @media screen and (min-width: 768px) {
+      svg {
+        width: 3.5rem;
+        height: 3.5rem;
+        margin-left: 0.5rem;
       }
+    }
+    @media (prefers-color-scheme: dark) {
+      svg {
+        color: white;
+      }
+    }
+  }
+
+  :global(body.frames .logo svg) {
+    @media (prefers-color-scheme: light) {
+      color: #fff;
     }
   }
 </style>
