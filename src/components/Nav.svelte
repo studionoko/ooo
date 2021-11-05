@@ -13,6 +13,7 @@
 <style lang="scss">
   .nav {
     position: fixed;
+    z-index: 10;
     display: flex;
     flex-direction: column;
     align-items: flex-end;

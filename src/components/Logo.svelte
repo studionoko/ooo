@@ -24,6 +24,7 @@
     bottom: 1rem;
     right: 1rem;
     position: fixed;
+    z-index: 10;
     mix-blend-mode: exclusion;
     display: flex;
     flex-direction: row;
@@ -38,7 +39,6 @@
       width: 2.5rem;
       height: 2.5rem;
       margin-left: 0.35rem;
-      color: white;
 
       circle,
       path {
