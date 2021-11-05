@@ -41,7 +41,7 @@
     margin: 0;
     color: inherit;
     text-decoration: none;
-    font-variation-settings: 'wght' 250;
+    font-variation-settings: 'wght' 210;
     transform: translateX(1rem);
     transition: 0.1s padding;
     -webkit-tap-highlight-color: transparent;
@@ -55,9 +55,17 @@
       right: 0;
       top: 0;
       bottom: 0;
-      border: solid 0.16rem currentColor;
+      border: solid 0.12rem currentColor;
       border-radius: 50%;
       transition: 0.1s opacity;
+    }
+
+    @media screen and (min-width: 768px) {
+      font-variation-settings: 'wght' 250;
+
+      &::after {
+        border-width: 0.16rem;
+      }
     }
   }
 
