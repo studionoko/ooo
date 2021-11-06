@@ -286,7 +286,7 @@
 		justify-content: flex-end;
 		align-items: center;
 		margin-top: -30vh;
-		height: 120vh;
+		height: 131vh;
 		background: black;
 		color: white;
 		position: relative;
