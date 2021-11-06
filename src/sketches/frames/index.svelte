@@ -14,6 +14,9 @@
 	import F_Test from './assets/test/index.js'
 	import F_Circles from './assets/circles/index.js'
 
+	gsap.config({
+		nullTargetWarn: false,
+	})
 	gsap.registerPlugin(ScrollTrigger)
 
 	let scroll
@@ -143,8 +146,6 @@
 			}, 0.5)
 		}
 	}
-
-	$: { index; console.log(index) }
 
 	const onResize = () => {
 		winHeight = window.innerHeight

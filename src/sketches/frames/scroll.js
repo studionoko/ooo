@@ -20,6 +20,7 @@ export default class Scroll {
     this.scroll = new ASScroll({
       disableRaf: true,
       touchScrollType: 'none',
+      disableOnTouch: true,
     })
     this.scroll.enable({
       restore: false,
@@ -34,8 +35,16 @@ export default class Scroll {
     this.initialized = false
   }
 
-  to(...args) {
-    this.scroll.scrollTo(...args)
+  to(pos) {
+    const w = window.innerWidth
+    if (w < 768) {
+      window.scrollTo({
+        top: pos,
+        behavior: 'smooth',
+      })
+    } else {
+      this.scroll.scrollTo(pos)
+    }
   }
 
   on(ev, callback) {
