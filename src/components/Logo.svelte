@@ -42,7 +42,7 @@
 
       circle,
       path {
-        stroke: currentColor;
+        stroke: #fff;
       }
 
       &:nth-child(2) { display: none; }
