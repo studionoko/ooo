@@ -29,7 +29,7 @@
 	let isAnimatingTitle = true
 	let cols = getRandomColors()
 	let hasInitializedGsap = false
-	let winHeight
+	let winHeight, winWidth
 	let frameOffset
 	let inputsVisible = false
 
@@ -155,15 +155,18 @@
 	}
 
 	const setTitlePos = () => {
-		console.log(winHeight)
 		titleEl.style.marginTop = winHeight / 2 + 'px'
 	}
 
 	const onResize = () => {
-		console.log('heisann')
+		const w = window.innerWidth
 		winHeight = window.innerHeight
 		frameOffset = winHeight * 0.2
-		setTitlePos()
+
+		if (w !== winWidth) {
+			setTitlePos()
+			winWidth = w
+		}
 	}
 
 	const destroy = () => {
