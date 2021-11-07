@@ -1,5 +1,6 @@
 <script>
   import { onMount, createEventDispatcher } from 'svelte'
+  import { range } from 'canvas-sketch-util/random'
   import { clamp, map } from '../../../util/math'
 
   export let val = 6
@@ -80,7 +81,10 @@
   class="slider"
   class:active={active}
 >
-  <div class="slider-wrapper">
+  <div
+    class="slider-wrapper"
+    style={`transform: rotate(${range(-3,3)}deg)`}
+  >
     <span
       class="track"
       bind:this={track}
@@ -116,14 +120,13 @@
       background: transparent;
       border: solid 2px white;
       color: black;
-      transform: rotate(-2deg);
       transition: transform 0.5s;
       position: relative;
     }
 
     &:hover {
       .slider-wrapper {
-        transform: translateY(-3px);
+        transform: translateY(-3px) !important;
       }
 
       .wheel {
@@ -134,7 +137,7 @@
 
     &.active {
       .slider-wrapper {
-        transform: translateY(-3px);
+        transform: translateY(-3px) !important;
       }
     }
 
