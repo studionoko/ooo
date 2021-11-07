@@ -13,7 +13,7 @@
 
 	// Frames
 	import F_2021_10_24 from './assets/2021-10-24/index.js'
-	import F_Test from './assets/test/index.js'
+	import F_2021_11_07 from './assets/2021-11-07/index.js'
 	import F_Circles from './assets/circles/index.js'
 
 	gsap.config({
@@ -34,6 +34,7 @@
 	let inputsVisible = false
 
 	const frames = [
+		F_2021_11_07,
 		F_Circles,
 		F_2021_10_24,
 	].map(f => ({
