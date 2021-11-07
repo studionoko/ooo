@@ -152,6 +152,10 @@
         }
       }
     }
+
+    @media screen and (min-width: 600px) {
+      transform: translateX(0);
+    }
   }
 
   .track {

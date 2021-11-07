@@ -55,9 +55,11 @@
       gsap.fromTo(inputsSliders, {
         opacity: 0,
         y: '30%',
+        x: '-50%',
       }, {
         opacity: 1,
         y: '0%',
+        x: '-50%',
         duration: 0.4,
         stagger: 0.1,
         ease: 'power1.out',
@@ -66,6 +68,7 @@
       gsap.to(inputsSliders, {
         opacity: 0,
         y: '30%',
+        x: '-50%',
         ease: 'power1.in',
         stagger: 0.1,
         duration: 0.4,
@@ -167,6 +170,7 @@
     padding: 0 0;
     box-sizing: border-box;
     position: relative;
+    overflow: hidden;
 
     figure {
       margin: 0;
@@ -214,6 +218,13 @@
         position: absolute;
         width: auto;
         height: auto;
+      }
+
+      @media screen and (max-width: 600px) {
+        .input {
+          left: 50% !important;
+          top: 0;
+        }
       }
     }
 
