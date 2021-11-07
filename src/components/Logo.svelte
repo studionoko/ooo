@@ -43,12 +43,18 @@
       circle,
       path {
         stroke: #fff;
+        stroke-width: 16;
       }
 
       &:nth-child(2) { display: none; }
       &:nth-child(3) { display: none; }
 
       @media screen and (min-width: 600px) {
+        circle,
+        path {
+          stroke-width: 18;
+        }
+
         &:nth-child(2) { display: block; }
         &:nth-child(3) { display: block; }
       }
