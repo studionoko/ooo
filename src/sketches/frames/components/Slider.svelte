@@ -53,10 +53,9 @@
   $: { actualVal;
     if (ready) {
       val = Math.round(actualVal / actualMax * max)
-      dispatch('update', val)
     }
   }
-  // $: val, dispatch('update', val)
+  $: val, dispatch('update', val)
 
   /**
    *  Set defaults on mount
