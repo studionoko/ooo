@@ -26,7 +26,7 @@ const options = [
   },
   {
     name: 'spread',
-    val: 10,
+    val: 5,
     min: 5,
     max: 12,
   },
