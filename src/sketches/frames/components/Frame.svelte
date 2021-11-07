@@ -141,7 +141,11 @@
     </figure>
   </div>
 
-  <div class="frame-inputs" bind:this={inputs}>
+  <div
+    class="frame-inputs"
+    style={`pointer-events: ${showInputs ? 'auto' : 'none'}`}
+    bind:this={inputs}
+  >
     {#if source.options}
       {#each source.options as opt}
         <div class="input" style={getInputPos()}>
@@ -212,6 +216,7 @@
       width: 100%;
       height: 100%;
       transform-origin: 50% 50% !important;
+      pointer-events: none;
 
       .input {
         display: block;
