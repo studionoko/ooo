@@ -42,10 +42,14 @@
     margin: 0;
     color: inherit;
     text-decoration: none;
-    font-variation-settings: 'wght' 210;
     transform: translateX(1rem);
     transition: 0.1s padding;
     -webkit-tap-highlight-color: transparent;
+    font-variation-settings: 'wght' 210;
+
+    @media (prefers-color-scheme: light) {
+      font-variation-settings: 'wght' 230;
+    }
 
     &::after {
       content: '';
