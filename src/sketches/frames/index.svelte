@@ -132,7 +132,7 @@
 						}
 					}
 				},
-				scale: 0.6,
+				scale: 0.5,
 				rotation: `${rotation}deg`,
 				ease: 'circ.out',
 			})

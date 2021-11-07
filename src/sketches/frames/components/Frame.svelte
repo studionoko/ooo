@@ -16,6 +16,21 @@
   let showInputs = false
   let opts
 
+  const inputPos = [
+    [20,60], [40,65],
+    [40,30], [50,30],
+  ]
+
+  const getInputPos = () => {
+    const i = Math.floor(Math.random() * inputPos.length)
+    const pos = inputPos[i]
+    inputPos.splice(i, 1)
+    return `
+      top: ${pos[0]}%;
+      left: ${pos[1]}%;
+    `
+  }
+
   /**
    *  External
    */
@@ -44,6 +59,7 @@
         opacity: 1,
         y: '0%',
         duration: 0.4,
+        stagger: 0.1,
         ease: 'power1.out',
       })
     } else {
@@ -51,6 +67,7 @@
         opacity: 0,
         y: '30%',
         ease: 'power1.in',
+        stagger: 0.1,
         duration: 0.4,
       })
     }
@@ -86,7 +103,6 @@
 
     const config = Object.assign({}, settings, {
       canvas,
-      animate: false,
       playing: false,
       styleCanvas: false,
     })
@@ -125,12 +141,14 @@
   <div class="frame-inputs" bind:this={inputs}>
     {#if source.options}
       {#each source.options as opt}
-        <Slider
-          bind:val={opt.val}
-          on:update={onSliderUpdate}
-          min={opt.min}
-          max={opt.max}
-        />
+        <div class="input" style={getInputPos()}>
+          <Slider
+            bind:val={opt.val}
+            on:update={onSliderUpdate}
+            min={opt.min}
+            max={opt.max}
+          />
+        </div>
       {/each}
     {/if}
   </div>
@@ -185,12 +203,18 @@
     &-inputs {
       position: absolute;
       display: block;
-      top: 60%;
-      left: 20%;
-      background: #f30;
-      width: auto;
-      height: auto;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       transform-origin: 50% 50% !important;
+
+      .input {
+        display: block;
+        position: absolute;
+        width: auto;
+        height: auto;
+      }
     }
 
     @media screen and (min-width: 600px) {

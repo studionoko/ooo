@@ -52,7 +52,7 @@
   $: wheelStyle = `left: ${actualVal}px;`
   $: { actualVal;
     if (ready) {
-      val = Math.round(actualVal / actualMax * max)
+      val = Math.floor(min + ((actualVal / actualMax) * (max-min)))
     }
   }
   $: val, dispatch('update', val)
@@ -100,7 +100,7 @@
 <style lang="scss">
   .slider {
     display: block;
-    position: absolute;
+    position: relative;
     mix-blend-mode: exclusion;
     user-select: none;
     user-drag: none;

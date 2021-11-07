@@ -13,20 +13,31 @@ const settings = {
   fps: 1,
   playbackRate: 'fixed',
   duration: 5,
-  animate: true,
+  animate: false,
   playing: true,
 }
 
-const options = [{
-  name: 'circles',
-  val: 5,
-  min: 0,
-  max: 21,
-}]
+const options = [
+  {
+    name: 'amount',
+    val: 18,
+    min: 5,
+    max: 30,
+  },
+  {
+    name: 'spread',
+    val: 10,
+    min: 5,
+    max: 12,
+  },
+]
 
-const makeSquare = (ctx, w, h) => {
-  const x = range(w * 0.3, w * 0.7)
-  const y = range(h * 0.3, h * 0.7)
+const makeSquare = (ctx, w, h, s) => {
+  const min = 0.3 + (s/20)
+  const max = 0.7 - (s/20)
+
+  const x = range(w * min, w * max)
+  const y = range(h * min, h * max)
 
   ctx.strokeStyle = 'red'
   ctx.arc(x, y, 50, 0, 1 * Math.PI)
@@ -42,8 +53,11 @@ const sketch = (opts, ...args) => {
 
     context.beginPath()
 
-    for (let i = 0; i < opts[0].val; i++) {
-      makeSquare(context, width, height)
+    const amt = opts[0].val
+    const spread = opts[1].val
+
+    for (let i = 0; i < amt; i++) {
+      makeSquare(context, width, height, spread)
     }
 
     context.closePath()
