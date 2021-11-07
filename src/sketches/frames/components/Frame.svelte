@@ -14,6 +14,7 @@
   let inputs
   let inputsSliders
   let showInputs = false
+  let opts
 
   /**
    *  External
@@ -63,6 +64,12 @@
     manager.render()
   }
 
+  const onSliderUpdate = () => {
+    if (manager && opts) {
+      manager.render()
+    }
+  }
+
   const setTitle = () => {
     $title = source.meta.name
     $date = source.meta.date
@@ -70,6 +77,8 @@
 
   const loadSketch = async () => {
     const { settings, sketch } = source
+
+    if (source.options) opts = source.options
 
     if (settings.dimensions[0] > settings.dimensions[1]) {
       isHorizontal = true
@@ -82,7 +91,7 @@
       styleCanvas: false,
     })
 
-    manager = await canvasSketch(sketch, config)
+    manager = await canvasSketch(args => sketch(opts, args), config)
     manager.stop()
   }
 
@@ -92,7 +101,12 @@
   onMount(() => {
     loadSketch()
 
-    inputsSliders = inputs.querySelectorAll('.slider')
+    if (source.options) {
+      inputsSliders = inputs.querySelectorAll('.slider')
+      if (!showInputs) {
+        inputsSliders.forEach(el => el.style.opacity = 0)
+      }
+    }
 
     return handleLeave
   })
@@ -109,8 +123,15 @@
   </div>
 
   <div class="frame-inputs" bind:this={inputs}>
-    {#if showInputs}
-      <Slider />
+    {#if source.options}
+      {#each source.options as opt}
+        <Slider
+          bind:val={opt.val}
+          on:update={onSliderUpdate}
+          min={opt.min}
+          max={opt.max}
+        />
+      {/each}
     {/if}
   </div>
 

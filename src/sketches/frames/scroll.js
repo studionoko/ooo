@@ -22,7 +22,7 @@ export default class Scroll {
       touchScrollType: 'none',
     })
     this.scroll.enable({
-      restore: false,
+      restore: true,
     })
     this.el = this.scroll.containerElement
 

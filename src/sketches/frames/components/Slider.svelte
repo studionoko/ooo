@@ -1,8 +1,8 @@
 <script>
-  import { onMount } from 'svelte'
+  import { onMount, createEventDispatcher } from 'svelte'
   import { clamp, map } from '../../../util/math'
 
-  export let val = 5
+  export let val = 6
   export let min = 0
   export let max = 12
 
@@ -10,50 +10,89 @@
   let actualMin
   let actualMax
 
+  let x
   let track
   let wheel
 
+  let ready = false
   let active = false
 
+  const dispatch = createEventDispatcher()
+
   /**
-   *  Handlers
+   *  Wheel handlers
    */
   const onMousedown = ev => {
     active = true
+    x = track.getBoundingClientRect().left
   }
   const onMousemove = ev => {
     if (!active) return
+    const ex = ev.clientX || ev.touches[0].clientX
+    actualVal = clamp(ex - x, actualMin, actualMax)
   }
-  const onMouseup = () => {
+  const onMouseup = ev => {
+    if (!active) return
     active = false
+    x = track.getBoundingClientRect().left
   }
 
-  $: wheelStyle = `left: ${actualVal}px;`
+  /**
+   *  Track handlers
+   */
+  const onTrackClick = ev => {
+    const { left } = track.getBoundingClientRect()
+    const ex = ev.clientX || ev.touches[0].clientX
+    actualVal = ex - left
+  }
 
+  /**
+   *  Conditional styles
+   */
+  $: wheelStyle = `left: ${actualVal}px;`
+  $: { actualVal;
+    if (ready) {
+      val = Math.round(actualVal / actualMax * max)
+      dispatch('update', val)
+    }
+  }
+  // $: val, dispatch('update', val)
+
+  /**
+   *  Set defaults on mount
+   */
   onMount(() => {
-    actualMin = 0
+    actualMin = min
     actualMax = track.offsetWidth
     actualVal = val / max * actualMax
 
-    // console.table({val, min, max})
-    // console.table({actualVal, actualMin, actualMax})
+    ready = true
   })
 </script>
 
+<svelte:window
+  on:mousemove={onMousemove}
+  on:mouseup={onMouseup}
+  on:touchend={onMouseup}
+  on:touchmove={onMousemove}
+/>
+
 <div
   class="slider"
+  class:active={active}
 >
   <div class="slider-wrapper">
     <span
       class="track"
       bind:this={track}
+      on:click={onTrackClick}
     >
       <span
         class="wheel"
+        class:active={active}
         style={wheelStyle}
-        on:mousemove={onMousemove}
         on:mousedown={onMousedown}
-        on:mouseup={onMouseup}
+        on:touchstart={onMousedown}
       />
     </span>
   </div>
@@ -65,7 +104,9 @@
     position: absolute;
     mix-blend-mode: exclusion;
     user-select: none;
-
+    user-drag: none;
+    touch-action: none;
+    -webkit-app-region: no-drag;
 
     &-wrapper {
       display: flex;
@@ -78,16 +119,23 @@
       color: black;
       transform: rotate(-2deg);
       transition: transform 0.5s;
+      position: relative;
     }
 
     &:hover {
       .slider-wrapper {
-        transform: translateY(-2px);
+        transform: translateY(-3px);
       }
 
       .wheel {
         height: 1.2rem;
         width: 1.2rem;
+      }
+    }
+
+    &.active {
+      .slider-wrapper {
+        transform: translateY(-3px);
       }
     }
 
@@ -109,14 +157,28 @@
 
   .track {
     display: block;
-    flex: 0 1 80%;
-    background: white;
-    height: 2px;
+    flex: 0 1 85%;
+    height: 2.25rem;
     position: relative;
 
+    &::before {
+      content: "";
+      display: block;
+      position: absolute;
+      margin: auto;
+      top: 0;
+      height: 2px;
+      bottom: 0;
+      left: -0.2rem;
+      right: -0.2rem;
+      background: white;
+    }
+
     @media screen and (min-width: 600px) {
-      height: 3px;
       flex-basis: 80%;
+      &::before {
+        height: 3px;
+      }
     }
   }
 
@@ -129,7 +191,7 @@
     border-radius: 50%;
     height: 1rem;
     width: 1rem;
-    transition: width 0.2s, height 0.2s;
+    transition: width 0.2s, height 0.2s, left 0.3s;
 
     &:hover {
       height: 1.4rem;
@@ -139,6 +201,10 @@
       height: 1.2rem;
       width: 1.2rem;
       transition-duration: 0.1s;
+    }
+
+    &.active {
+      transition: width 0.2s, height 0.2s;
     }
 
     @media screen and (min-width: 600px) {

@@ -119,7 +119,7 @@
       <button
         on:click|stopPropagation={a.action}
         on:mouseenter={() => animate(a)}
-        class={`${a.ghost} ${a.animation}`}
+        class={a.animation}
         class:ghost={a.ghost}
       >
         <svg
@@ -189,14 +189,16 @@
       margin: 0;
       width: 2.5rem;
       height: 2.5rem;
+      transition: transform 0.15s, opacity 0.15s;
 
       &.ghost {
         position: relative;
         overflow: hidden;
       }
 
-      &:active svg {
+      &:active {
         opacity: 0.5;
+        transform: scale(0.75);
       }
 
       @media screen and (min-width: 768px) {

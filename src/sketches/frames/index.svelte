@@ -8,8 +8,10 @@
 	import { title, date } from './store'
   import { activeMenuItems } from '../../components/store'
 
+  // Frame component
 	import Frame from './components/Frame.svelte'
 
+	// Frames
 	import F_2021_10_24 from './assets/2021-10-24/index.js'
 	import F_Test from './assets/test/index.js'
 	import F_Circles from './assets/circles/index.js'
@@ -26,8 +28,9 @@
 	let isAnimatingTitle = true
 	let cols = getRandomColors()
 	let hasInitializedGsap = false
-	let winHeight;
-	let frameOffset;
+	let winHeight
+	let frameOffset
+	let inputsVisible = false
 
 	const frames = [
 		F_Circles,
@@ -57,6 +60,7 @@
 		frames.forEach(f => {
 			f.component.toggleInputs()
 		})
+		inputsVisible = !inputsVisible
 	}
 
 	const init = async () => {
@@ -67,7 +71,7 @@
 
 		setTimeout(() => isAnimatingTitle = false, 2100)
 
-		$activeMenuItems = [true, false, true, true, false]
+		$activeMenuItems = [true, false, true, true, true]
 
 		onResize()
 
@@ -132,18 +136,20 @@
 				ease: 'circ.out',
 			})
 
-			const inputs = f.ref.querySelector('.frame-inputs > div')
-			gsap.from(inputs, {
-				scrollTrigger: {
-					start: 'top bottom',
-					once: false,
-					trigger: inputs,
-				},
-				duration: 1,
-				opacity: 0,
-				y: '50%',
-				ease: 'power2.out',
-			}, 0.5)
+			if (inputsVisible) {
+				const inputs = f.ref.querySelector('.frame-inputs > div')
+				gsap.from(inputs, {
+					scrollTrigger: {
+						start: 'top bottom',
+						once: false,
+						trigger: inputs,
+					},
+					duration: 1,
+					opacity: 0,
+					y: '50%',
+					ease: 'power2.out',
+				}, 0.5)
+			}
 		}
 	}
 

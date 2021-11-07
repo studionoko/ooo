@@ -17,6 +17,13 @@ const settings = {
   playing: true,
 }
 
+const options = [{
+  name: 'circles',
+  val: 5,
+  min: 0,
+  max: 21,
+}]
+
 const makeSquare = (ctx, w, h) => {
   const x = range(w * 0.3, w * 0.7)
   const y = range(h * 0.3, h * 0.7)
@@ -26,7 +33,7 @@ const makeSquare = (ctx, w, h) => {
   ctx.stroke()
 }
 
-const sketch = () => {
+const sketch = (opts, ...args) => {
   return ({ context, width, height, frame }) => {
     context.fillStyle = '#f9f9ff'
     context.fillRect(0, 0, width, height)
@@ -35,7 +42,7 @@ const sketch = () => {
 
     context.beginPath()
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < opts[0].val; i++) {
       makeSquare(context, width, height)
     }
 
@@ -47,4 +54,5 @@ export default {
   settings,
   sketch,
   meta,
+  options,
 }
