@@ -25,6 +25,7 @@
 	let content
 	let index = 0
 	let introTimer
+	let titleEl
 	let isAnimatingTitle = true
 	let cols = getRandomColors()
 	let hasInitializedGsap = false
@@ -153,21 +154,28 @@
 		}
 	}
 
+	const setTitlePos = () => {
+		console.log(winHeight)
+		titleEl.style.marginTop = winHeight / 2 + 'px'
+	}
+
 	const onResize = () => {
+		console.log('heisann')
 		winHeight = window.innerHeight
 		frameOffset = winHeight * 0.2
+		setTitlePos()
 	}
 
 	const destroy = () => {
 		scroll.destroy()
 		clearTimeout(introTimer)
 		document.querySelector('body').classList.remove('frames')
-		document.removeEventListener('resize', onResize)
+		window.removeEventListener('resize', onResize)
 	}
 
 	onMount(() => {
 		document.querySelector('body').classList.add('frames')
-		document.addEventListener('resize', onResize)
+		window.addEventListener('resize', onResize)
 
 		init()
 		return destroy
@@ -175,7 +183,11 @@
 </script>
 
 <section class="frames" asscroll-container>
-	<div class="title" class:animating={isAnimatingTitle}>
+	<div
+		class="title"
+		bind:this={titleEl}
+		class:animating={isAnimatingTitle}
+	>
 		<h2>{#each $title.split(' ') as w}<span>{w}</span> {/each}</h2>
 		<h4>{#each $date.split(' ') as w}<span>{w}</span> {/each}</h4>
 	</div>
@@ -237,10 +249,10 @@
 		align-content: center;
 		justify-content: center;
 		position: fixed;
-		top: -1rem;
+		top: 0;
 		left: 0;
 		width: 100%;
-		height: 100%;
+		transform: translateY(-65%);
 
 		@media screen and (min-width: 600px) {
 			position: absolute;
