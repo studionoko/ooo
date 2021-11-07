@@ -12,18 +12,39 @@
 	let inactivityTimer = null
 	let viewport = { width: 1920, height: 1080 }
 
+	let lastPos = undefined
+	let velo = 0
+
 	export const clear = () => {
 		uhhs = []
+		velo = 0
+		lastPos = undefined
 	}
 
 	const createNewUhh = uhh => {
 		uhhs = [...uhhs, uhh]
 	}
 
+	const setVelocity = (x, y) => {
+		if (!lastPos) {
+			lastPos = [x, y]
+			return
+		}
+
+		const posDif = [
+			lastPos[0] - x,
+			lastPos[1] - y,
+		]
+
+		velo = Math.abs(posDif[0]) + Math.abs(posDif[1])
+		lastPos = [x,y]
+	}
+
 	const handleClick = ev => {
 		restartTimer()
 
 		createNewUhh({
+			velocity: 0,
 			color: cols[Math.floor(Math.random() * cols.length)],
 			top: ev.pageY,
 			left: ev.pageX,
@@ -33,26 +54,36 @@
 		isDrag = true
 		cols = getRandomColors()
 	}
-	const handleMouseUp = ev => isDrag = false
+	const handleMouseUp = ev => {
+		isDrag = false
+		lastPos = undefined
+		velo = 0
+	}
 	const handleMouseMove = ev => {
 		if (!isDrag || isDrawing) return
 		isDrawing = true
+		setVelocity(ev.pageX, ev.pageY)
 		createNewUhh({
+			velocity: velo,
 			color: cols[Math.floor(Math.random() * cols.length)],
 			top: ev.pageY,
 			left: ev.pageX,
 		})
-		setTimeout(() => isDrawing = false, 10);
+		restartTimer()
+		setTimeout(() => isDrawing = false, 10)
 	}
 	const handleTouchMove = ev => {
 		if (!isDrag || isDrawing) return
 		isDrawing = true
+		setVelocity(ev.touches[0].clientX, ev.touches[0].clientY)
 		createNewUhh({
+			velocity: velo,
 			color: cols[Math.floor(Math.random() * cols.length)],
 			top: ev.touches[0].clientY,
 			left: ev.touches[0].clientX,
 		})
-		setTimeout(() => isDrawing = false, 10);
+		restartTimer()
+		setTimeout(() => isDrawing = false, 10)
 	}
 	const handleResize = () => {
 		viewport = {
@@ -98,7 +129,7 @@
 <div class="wrapper">
 	{#each uhhs as u}
 		{#if u.top !== 0}
-			<Uhh color={u.color} top={u.top} left={u.left}/>
+			<Uhh color={u.color} top={u.top} left={u.left} velocity={u.velocity}/>
 		{/if}
 	{/each}
 </div>
