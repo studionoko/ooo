@@ -1,3 +1,5 @@
+import { range } from 'canvas-sketch-util/random'
+
 import cf from './config'
 import Orb from './Orb'
 import Noise from './Noise'
@@ -54,7 +56,12 @@ const sketch = (opts, ...args) => {
       }
     }
 
-    const g2 = ctx.createLinearGradient(0, 0, width, height)
+    const g2 = ctx.createLinearGradient(
+      range(0, width),
+      range(0, height/8),
+      range(0, width),
+      range(height * 0.8, height)
+    )
     g2.addColorStop(0, 'hsl(250, 100%, 50%)')
     g2.addColorStop(1, 'hsl(30, 100%, 80%)')
     ctx.fillStyle = g2
@@ -62,7 +69,12 @@ const sketch = (opts, ...args) => {
 
 
     ctx.globalCompositeOperation = 'hue'
-    const g3 = ctx.createLinearGradient(0, 0, width / 2, height / 2)
+    const g3 = ctx.createLinearGradient(
+      range(0, width),
+      range(0, height/3),
+      range(0, width),
+      range(height * 0.8, height)
+    )
     g2.addColorStop(0, 'hsl(250, 100%, 50%)')
     g2.addColorStop(1, 'hsl(0, 100%, 80%)')
     ctx.fillStyle = g2
