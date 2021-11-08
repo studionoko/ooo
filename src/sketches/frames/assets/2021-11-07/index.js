@@ -4,32 +4,69 @@ import Noise from './Noise'
 
 const meta = {
   name: '004 orbs',
-  date: '07. november 2021',
+  date: '08. november 2021',
 }
 
 const settings = {
-  dimensions: [ 600, 900 ],
-  loop: true,
+  dimensions: [ 750, 1100 ],
+  loop: false,
   fps: 1,
   playbackRate: 'fixed',
-  duration: 5,
+  duration: 100,
 }
 
-const options = [{
-  name: 'division',
-  val: 5,
-  min: 2,
-  max: 10,
-}]
+const options = [
+  // { name: 'division', val: 5, min: 2, max: 10 },
+  // { name: 'division', val: 5, min: 2, max: 10 },
+]
 
 const sketch = (opts, ...args) => {
   return ({ context, width, height, frame }) => {
-    context.fillStyle = '#f2f2ff'
-    context.fillRect(0, 0, width, height)
+    const ctx = context
 
-    if (cf.noise) new Noise(context, width, height);
+    if (cf.noise) new Noise(ctx, width, height)
 
-    new Orb(context, width/2, height/2, 50)
+    const g1 = ctx.createLinearGradient(0, 0, width, height)
+    g1.addColorStop(0, 'hsl(250, 100%, 50%)')
+    g1.addColorStop(1, 'hsl(30, 100%, 80%)')
+    ctx.fillStyle = g1
+    ctx.fillRect(0, 0, width, height)
+
+
+    let i = 0
+    const horizontal = 6
+    const vertical = 11
+    const max = horizontal * vertical
+
+    for (let x = 0; x < horizontal; x++) {
+      for (let y = 0; y < vertical; y++) {
+        i += 1
+
+        if (Math.random() * max > i && Math.random() * vertical > y) continue
+
+        new Orb(
+          ctx,
+          width/7 + width * x/7,
+          height/11 + height * y/11,
+          50,
+          i,
+        )
+      }
+    }
+
+    const g2 = ctx.createLinearGradient(0, 0, width, height)
+    g2.addColorStop(0, 'hsl(250, 100%, 50%)')
+    g2.addColorStop(1, 'hsl(30, 100%, 80%)')
+    ctx.fillStyle = g2
+    ctx.fillRect(0, 0, width, height)
+
+
+    ctx.globalCompositeOperation = 'hue'
+    const g3 = ctx.createLinearGradient(0, 0, width / 2, height / 2)
+    g2.addColorStop(0, 'hsl(250, 100%, 50%)')
+    g2.addColorStop(1, 'hsl(0, 100%, 80%)')
+    ctx.fillStyle = g2
+    ctx.fillRect(0, 0, width, height)
   }
 }
 

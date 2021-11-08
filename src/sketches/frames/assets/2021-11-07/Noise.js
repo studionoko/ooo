@@ -19,12 +19,12 @@ export default class Noise {
     const len = buff.length
 
     for (let i = 0; i < len; i += 1) {
-      if (Math.random() < 0.05) buff[i] = 0xffff00aa
+      if (Math.random() < 0.7) buff[i] = 0xaaff00ff
     }
 
     this.noise = dt
 
-    this.ctx.globalCompositeOperation = 'exclusion'
+    this.ctx.globalCompositeOperation = 'color-dodge'
     this.ctx.putImageData(this.noise, 0, 0)
   }
 }
