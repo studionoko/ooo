@@ -26,6 +26,7 @@ const sketch = (opts, ...args) => {
   return ({ context, width, height, frame }) => {
     const ctx = context
 
+    ctx.globalCompositeOperation = 'color-dodge'
     if (cf.noise) new Noise(ctx, width, height)
 
     const g1 = ctx.createLinearGradient(0, 0, width, height)
@@ -34,14 +35,13 @@ const sketch = (opts, ...args) => {
     ctx.fillStyle = g1
     ctx.fillRect(0, 0, width, height)
 
-
     let i = 0
     const horizontal = 6
     const vertical = 11
     const max = horizontal * vertical
 
-    for (let x = 0; x < horizontal; x++) {
-      for (let y = 0; y < vertical; y++) {
+    for (let y = 0; y < vertical; y++) {
+      for (let x = 0; x < horizontal; x++) {
         i += 1
 
         if (Math.random() * max > i && Math.random() * vertical > y) continue
@@ -71,13 +71,14 @@ const sketch = (opts, ...args) => {
     ctx.globalCompositeOperation = 'hue'
     const g3 = ctx.createLinearGradient(
       range(0, width),
-      range(0, height/3),
+      range(0, -height/4),
       range(0, width),
-      range(height * 0.8, height)
+      range(height, height*1.2)
     )
-    g2.addColorStop(0, 'hsl(250, 100%, 50%)')
-    g2.addColorStop(1, 'hsl(0, 100%, 80%)')
-    ctx.fillStyle = g2
+    g3.addColorStop(0, 'hsl(235, 100%, 50%)')
+    g3.addColorStop(0.4, 'hsl(260, 100%, 50%)')
+    g3.addColorStop(1, 'hsl(50, 50%, 70%)')
+    ctx.fillStyle = g3
     ctx.fillRect(0, 0, width, height)
   }
 }

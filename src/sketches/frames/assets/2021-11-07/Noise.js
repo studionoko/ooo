@@ -23,8 +23,6 @@ export default class Noise {
     }
 
     this.noise = dt
-
-    this.ctx.globalCompositeOperation = 'color-dodge'
     this.ctx.putImageData(this.noise, 0, 0)
   }
 }
