@@ -106,6 +106,7 @@
 
     const config = Object.assign({}, settings, {
       canvas,
+      animate: false,
       playing: false,
       styleCanvas: false,
     })
