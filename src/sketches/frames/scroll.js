@@ -23,10 +23,12 @@ export default class Scroll {
     })
     this.scroll.enable({
       restore: true,
+      horizontalScroll: true,
     })
     this.el = this.scroll.containerElement
 
     this.initialized = true
+    console.log(this.scroll.isHorizontal)
   }
 
   destroy() {

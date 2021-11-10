@@ -165,7 +165,7 @@
 
 <style lang="scss">
   .frame {
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     margin: 0;
     display: inline-flex;
@@ -190,22 +190,25 @@
     }
 
     &-wrapper {
-      width: 100%;
-      height: auto;
+      width: auto;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       position: relative;
-      padding: 0 2rem;
+      padding: 2rem 0;
     }
 
     &-fade {
       position: absolute;
       top: 1.5rem;
       left: 0;
-      width: 100%;
-      height: calc(100% - 3rem);
-      background: linear-gradient(to bottom, rgba(white,0), rgba(white,1) 25% 75%, rgba(white,0));
+      height: 100%;
+      width: calc(100% - 3rem);
+      background: linear-gradient(to left, rgba(white,0), rgba(white,1) 25% 75%, rgba(white,0));
 
       @media (prefers-color-scheme: dark) {
-        background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1) 25% 75%, rgba(0,0,0,0));
+        background: linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,1) 25% 75%, rgba(0,0,0,0));
       }
     }
 

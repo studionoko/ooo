@@ -285,13 +285,12 @@
 
 	.frames {
 		display: flex;
-		flex-direction: column;
+		flex-direction: row;
 		justify-content: flex-start;
 		align-items: center;
 		align-content: center;
-		width: 100%;
-		height: auto;
-		min-height: 100vh;
+		width: 100vw;
+		height: 100vh;
 
     @media (prefers-color-scheme: light) {
     	background: #fff;
@@ -300,8 +299,8 @@
 
 	.intro,
 	.outro {
-		width: 100%;
-		height: 80vh;
+		width: 80vw;
+		height: 100vh;
 	}
 
 	.outro {
@@ -337,6 +336,8 @@
 	}
 
 	.item {
+		width: 100vw;
+		height: 100vw;
 		margin: 0;
 		padding: 0;
 		position: relative;
@@ -345,8 +346,10 @@
 
 	.content {
 		list-style: none;
-		display: block;
-		width: 100%;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		width: auto;
 		height: auto;
 		padding: 0;
 		margin: 0;
