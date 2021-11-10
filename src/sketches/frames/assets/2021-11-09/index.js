@@ -14,9 +14,6 @@ const settings = {
   loop: true,
   fps: 1,
   playbackRate: 'fixed',
-  // duration: 100,
-  animate: true,
-  playing: true,
 }
 
 const options = [
@@ -30,12 +27,15 @@ const sketch = (opts, ...args) => {
 
     new Noise(ctx, width, height)
 
+    ctx.globalCompositeOperation = 'soft-light'
+
     // options
     const w = options[0].val
     const h = options[1].val
     const margin = width / 12
 
     let i = 0
+    let maxI = w * h
 
     for (let y = 0; y < h; y++) {
       for (let x = 0; x < w; x++) {
@@ -43,7 +43,7 @@ const sketch = (opts, ...args) => {
         const xpos = margin + (x * size)
         const ypos = margin + (y * size)
 
-        new Square(ctx, xpos, ypos, size, i, frame)
+        new Square(ctx, xpos, ypos, size, i, maxI)
 
         i++
       }
