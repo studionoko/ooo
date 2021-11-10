@@ -19,7 +19,7 @@ export default class Noise {
     const len = buff.length
 
     for (let i = 0; i < len; i += 1) {
-      if (Math.random() < 0.7) buff[i] = 0xfff1f1ff
+      if (Math.random() < 0.7) buff[i] = 0xa0f1f1ff
     }
 
     this.noise = dt
