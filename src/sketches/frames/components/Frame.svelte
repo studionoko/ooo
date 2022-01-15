@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte'
+  import { ScrollTrigger } from 'gsap/ScrollTrigger'
   import canvasSketch from 'canvas-sketch'
   import { range } from 'canvas-sketch-util/random'
   import { gsap } from 'gsap'
@@ -15,6 +16,9 @@
   let inputsSliders
   let showInputs = false
   let opts
+  let wrapperEl
+
+  let xOffset = range(-1, 1)
 
   const inputPos = [
     [20,60], [40,65],
@@ -96,7 +100,7 @@
   }
 
   const loadSketch = async () => {
-    const { settings, sketch } = source
+    const { settings, sketch, meta } = source
 
     if (source.options) opts = source.options
 
@@ -106,13 +110,23 @@
 
     const config = Object.assign({}, settings, {
       canvas,
-      animate: false,
-      playing: false,
+      animate: settings.animate || false,
+      playing: settings.animate || false,
       styleCanvas: false,
     })
 
     manager = await canvasSketch(args => sketch(opts, args), config)
-    manager.stop()
+
+    // 'Stop' the rendering if there's no animation
+    if (!settings.animate || false) manager.stop()
+  }
+
+  const tick = () => {
+    // Pause animation rendering when out-of-view
+    const isInView = ScrollTrigger.isInViewport(wrapperEl)
+    if (!isInView && manager) manager.pause()
+    else if (manager) manager.play()
+    requestAnimationFrame(tick)
   }
 
   /**
@@ -121,6 +135,8 @@
   onMount(() => {
     loadSketch()
 
+    if (source.settings.animate) tick()
+
     if (source.options) {
       inputsSliders = inputs.querySelectorAll('.slider')
       if (!showInputs) {
@@ -128,14 +144,17 @@
       }
     }
 
-    return handleLeave
+    return () => {
+      cancelAnimationFrame(tick)
+      handleLeave()
+    }
   })
 
 </script>
 
 <div class="frame" class:horizontal={isHorizontal}>
 
-  <div class="frame-wrapper">
+  <div bind:this={wrapperEl} class="frame-wrapper" style={`transform: translateX(${xOffset}%`}>
     <span class="frame-fade" />
     <figure on:click={onClick}>
       <canvas bind:this={canvas} />
