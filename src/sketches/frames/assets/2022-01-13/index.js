@@ -21,7 +21,7 @@ const options = [
   {
     name: 'radius',
     val: settings.dimensions[0]/3,
-    min: settings.dimensions[0]/20,
+    min: 2,
     max: settings.dimensions[0],
   },
   { name: 'xOffset', val: 9, min: 3, max: 15 },
