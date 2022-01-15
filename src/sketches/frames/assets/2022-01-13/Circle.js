@@ -23,13 +23,14 @@ export default class Circle {
     this.getPos = this.getPos.bind(this)
   }
 
-  getPos(frame) {
-    this.x = this.width - x(frame, this.width, this.offset, this.width/9)
-    this.y = this.height / 2 - cos(frame, this.offset) * this.height/4.5
+  getPos(frame, xo, yo) {
+    this.x = this.width - x(frame, this.width, this.offset, this.width/xo)
+    this.y = this.height / 2 - cos(frame, this.offset) * this.height/yo
   }
 
-  draw(frame) {
-    this.getPos(frame)
+  draw(frame, xo=1, yo=1, r=1) {
+    this.radius = r
+    this.getPos(frame, xo, yo)
 
     this.ctx.beginPath()
     this.ctx.filter = `blur(${(sin(frame, 0) * 1) * this.blur}px`

@@ -18,13 +18,22 @@ const settings = {
 }
 
 const options = [
-  // { name: 'division', val: 5, min: 2, max: 10 },
+  {
+    name: 'radius',
+    val: settings.dimensions[0]/3,
+    min: settings.dimensions[0]/20,
+    max: settings.dimensions[0],
+  },
+  { name: 'xOffset', val: 9, min: 3, max: 15 },
+  { name: 'yOffset', val: 5, min: 3, max: 12 },
 ]
 
 const sketch = (opts, ...args) => {
+  const [ radius, xOffset, yOffset ] = options
+
   const b = range(65, 80)
   const b2 = range(40, 55)
-  const h = range(250, 350)
+  const h = range(250, 320)
   const fs1 = `hsl(0, 100%, ${b}%`
   const fs2 = `hsl(${h}, 100%, ${b2}%)`
 
@@ -34,8 +43,6 @@ const sketch = (opts, ...args) => {
   let cos, sin
   let circles = []
 
-
-
   return ({ context, width, height, frame }) => {
     const ctx = context
 
@@ -43,7 +50,7 @@ const sketch = (opts, ...args) => {
       initiated = true
       for (let i = 0; i < 5; i++) {
         circles.push(
-          new Circle(ctx, width, height, width/3 + 0.2*i, 40*i, 8-4*i, fs),
+          new Circle(ctx, width, height, radius.val + 0.2*i, 40*i, 8-4*i, fs),
         )
       }
     }
@@ -64,7 +71,7 @@ const sketch = (opts, ...args) => {
      *  Circle(s)
      */
     circles.forEach(circle => {
-      circle.draw(frame)
+      circle.draw(frame, xOffset.val, yOffset.val, radius.val)
     })
   }
 }
@@ -73,5 +80,5 @@ export default {
   settings,
   sketch,
   meta,
-  // options,
+  options,
 }
